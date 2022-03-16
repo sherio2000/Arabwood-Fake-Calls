@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.awfc.data.Artist
 import com.example.awfc.databinding.ArtistRowLayoutBinding
-import com.example.awfc.modelClass.Result
+import kotlinx.coroutines.flow.*
 
 class ArtistsAdapter : RecyclerView.Adapter<ArtistsAdapter.MyViewHolder>() {
 
@@ -15,6 +15,7 @@ class ArtistsAdapter : RecyclerView.Adapter<ArtistsAdapter.MyViewHolder>() {
 
     class MyViewHolder(private val binding: ArtistRowLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
+
         fun bind(modelClass: Artist) {
             binding.result = modelClass
             binding.executePendingBindings()
@@ -41,6 +42,9 @@ class ArtistsAdapter : RecyclerView.Adapter<ArtistsAdapter.MyViewHolder>() {
     override fun getItemCount(): Int {
         return artists.size
     }
+
+    suspend fun <T> Flow<List<T>>.flattenToList() =
+        flatMapConcat { it.asFlow() }.toList()
 
     @SuppressLint("NotifyDataSetChanged")
     fun setData(newData: List<Artist>) {
