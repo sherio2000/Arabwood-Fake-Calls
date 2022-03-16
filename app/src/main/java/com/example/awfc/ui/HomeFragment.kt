@@ -1,4 +1,4 @@
-package com.example.awfc
+package com.example.awfc.ui
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.navigation.Navigation
+import com.example.awfc.R
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

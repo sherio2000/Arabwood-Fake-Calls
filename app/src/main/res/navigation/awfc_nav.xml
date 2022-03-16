@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.awfc.HomeFragment"
+        android:name="com.example.awfc.ui.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
@@ -21,7 +21,7 @@
     </fragment>
     <fragment
         android:id="@+id/voiceCallHomeFragment"
-        android:name="com.example.awfc.VoiceCallHomeFragment"
+        android:name="com.example.awfc.ui.VoiceCallHomeFragment"
         android:label="fragment_voice_call_home"
         tools:layout="@layout/fragment_voice_call_home" >
         <action
@@ -32,7 +32,7 @@
     </fragment>
     <fragment
         android:id="@+id/videoCallHomeFragment"
-        android:name="com.example.awfc.VideoCallHomeFragment"
+        android:name="com.example.awfc.ui.VideoCallHomeFragment"
         android:label="fragment_video_call_home"
         tools:layout="@layout/fragment_video_call_home" >
         <action
@@ -40,5 +40,17 @@
             app:destination="@id/homeFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim" />
+        <action
+            android:id="@+id/action_videoCallHomeFragment_to_artistDetailsActivity"
+            app:destination="@id/artistDetailsActivity" />
     </fragment>
+    <activity
+        android:id="@+id/artistDetailsActivity"
+        android:name="com.example.awfc.ui.ArtistDetailsActivity"
+        android:label="activity_artist_details"
+        tools:layout="@layout/activity_artist_details" >
+        <argument
+            android:name="result"
+            app:argType="com.example.awfc.data.Artist" />
+    </activity>
 </navigation>

@@ -1,4 +1,4 @@
-package com.example.awfc
+package com.example.awfc.viewmodels
 
 import android.app.Application
 import android.content.Context

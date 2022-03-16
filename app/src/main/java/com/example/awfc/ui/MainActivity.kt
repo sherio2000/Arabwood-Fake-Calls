@@ -1,4 +1,4 @@
-package com.example.awfc
+package com.example.awfc.ui
 
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
@@ -7,6 +7,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
+import com.example.awfc.R
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

@@ -14,18 +14,21 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AWFC">
         <activity
-            android:name=".SplashScreenActivity"
-            android:theme="@style/SplashScreen"
-            android:exported="true">
+            android:name=".ui.ArtistDetailsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.SplashScreenActivity"
+            android:exported="true"
+            android:theme="@style/SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
-            android:exported="true">
-        </activity>
+            android:name=".ui.MainActivity"
+            android:exported="true"></activity>
 
         <meta-data
             android:name="preloaded_fonts"

@@ -1,4 +1,4 @@
-package com.example.awfc
+package com.example.awfc.ui
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -8,14 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.coroutineScope
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.awfc.R
 import com.example.awfc.adapters.ArtistsAdapter
-import com.example.awfc.databinding.FragmentVideoCallHomeBinding
+import com.example.awfc.viewmodels.MainViewModel
 import com.todkars.shimmer.ShimmerRecyclerView
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -47,9 +46,6 @@ class VideoCallHomeFragment : Fragment() {
         return mView
     }
 
-    private suspend fun getArtists() {
-
-    }
 
     @SuppressLint("CutPasteId")
     private fun setupRecyclerView()
