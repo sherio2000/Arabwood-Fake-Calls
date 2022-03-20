@@ -8,7 +8,7 @@ plugins {
 }
 
 android {
-    compileSdk 32
+    compileSdk 31
 
     buildFeatures {
         viewBinding true
@@ -18,7 +18,7 @@ android {
     defaultConfig {
         applicationId "com.example.awfc"
         minSdk 21
-        targetSdk 32
+        targetSdk 31
         versionCode 1
         versionName "1.0"
 
@@ -82,6 +82,11 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.2.0"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.2.0"
+
+    implementation 'com.yqritc:android-scalablevideoview:1.0.4'
+
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
+    kapt 'com.github.bumptech.glide:compiler:4.11.0'
 
 
     implementation 'androidx.core:core-ktx:1.7.0'

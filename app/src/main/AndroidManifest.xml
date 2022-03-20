@@ -3,7 +3,11 @@
     package="com.example.awfc">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:name=".MyApplication"
@@ -13,6 +17,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AWFC">
+        <activity
+            android:name=".ui.CameraActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.OutgoingRingingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.IncomingRingingActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.ArtistDetailsActivity"
             android:exported="false" />
@@ -28,7 +41,7 @@
         </activity>
         <activity
             android:name=".ui.MainActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
 
         <meta-data
             android:name="preloaded_fonts"
