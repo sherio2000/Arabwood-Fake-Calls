@@ -11,10 +11,10 @@ import javax.annotation.Nullable
 data class Artist(
     @PrimaryKey(autoGenerate = true)
     val id: Int,
-    val name: String,
-    val description: String,
-    val image: String,
-    val videoUrl1: String,
+    var name: String,
+    var description: String,
+    var image: String,
+    var videoUrl1: String,
     @Nullable
     val videoUrl2: String?,
     @Nullable

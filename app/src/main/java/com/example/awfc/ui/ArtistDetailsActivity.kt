@@ -45,7 +45,6 @@ class ArtistDetailsActivity : AppCompatActivity() {
     private val imageView: ImageView? = null
     private val MY_CAMERA_PERMISSION_CODE = 100
 
-    val args: ArtistDetailsActivityArgs by navArgs()
 
     companion object {
         private const val CAMERA_PERMISSION_CODE = 100
@@ -61,15 +60,24 @@ class ArtistDetailsActivity : AppCompatActivity() {
         toolbar.setTitle("Details")
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        val result: Artist = args.result
+
         val image = findViewById<ImageView>(R.id.artistDetailsIV)
         val artistTitle = findViewById<TextView>(R.id.artistDetailsNameTV)
         val artistDesc = findViewById<TextView>(R.id.artistDetailsDescTV)
-        Log.d("Picasso Image URL", result.image)
-        Picasso.get().load(result.image).into(image)
+//        Log.d("Picasso Image URL", result.image)
+        Picasso.get().load(intent.getStringExtra("artistImage")).into(image)
         Picasso.get().isLoggingEnabled = true
-        artistTitle.text = result.name
-        artistDesc.text = result.description
+        artistTitle.text = intent.getStringExtra("artistName")
+        artistDesc.text = intent.getStringExtra("artistDesc")
+        val artist = Artist(
+            0,
+            intent.getStringExtra("artistName").toString(),
+            intent.getStringExtra("artistDesc").toString(),
+            intent.getStringExtra("artistImage").toString(),
+            intent.getStringExtra("artistVideo1").toString(),
+            intent.getStringExtra("artistVideo2").toString(),
+            intent.getStringExtra("artistVideo3").toString()
+        )
 
         findViewById<Button>(R.id.incomingCallBtn).setOnClickListener {
 
@@ -78,7 +86,7 @@ class ArtistDetailsActivity : AppCompatActivity() {
                 ActivityCompat.requestPermissions(this@ArtistDetailsActivity, arrayOf(Manifest.permission.CAMERA), CAMERA_PERMISSION_CODE)
             } else {
                 val intent = Intent(it.context, IncomingRingingActivity::class.java)
-                intent.putExtra("artist", result)
+                intent.putExtra("artist", artist)
                 it.context.startActivity(intent)
             }
         }
