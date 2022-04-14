@@ -19,34 +19,44 @@ import android.util.SparseIntArray
 import android.view.Surface
 import android.view.TextureView
 import android.view.View
+import android.webkit.ConsoleMessage
+import android.widget.Button
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.FragmentActivity
 import com.example.awfc.R
+import com.example.awfc.data.Artist
 import com.example.awfc.databinding.ActivityCameraBinding
 import com.example.awfc.utils.AutoFitTextureView
 import com.example.awfc.utils.CompareSizesByArea
 import com.example.awfc.utils.LoadingDialog
+import java.io.Console
 import java.io.IOException
 import java.util.*
 import java.util.concurrent.Semaphore
 import java.util.concurrent.TimeUnit
+import kotlin.math.log
 
 class CameraActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissionsResultCallback {
 
     private lateinit var binding: ActivityCameraBinding
     private lateinit var loadingDialog: LoadingDialog
+    private lateinit var artist: Artist
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_camera)
         textureView = findViewById<View>(R.id.texture) as AutoFitTextureView
-
+        artist = intent.getParcelableExtra("artist")!!
+        loadingDialog = LoadingDialog(this)
+        loadingDialog.startLoadingDialog()
 
         try {
-            //val videoPath = artist.videoUrl
-            val uri: Uri = Uri.parse("videoPath")
+
+            val videoPath = artist.videoUrl1
+            val uri: Uri = Uri.parse(videoPath)
             binding.videoViewScalable.setDataSource(this@CameraActivity, uri)
             binding.videoViewScalable.isLooping = true
             binding.videoViewScalable.prepare {
@@ -67,7 +77,15 @@ class CameraActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissionsR
         } catch (e: Exception) {
             Log.d("CameraActivity", "onCreate: error : ${e.message}")
         }
+
+        var endCallBtn  = findViewById<ImageView>(R.id.btnEndCall)
+        endCallBtn.setOnClickListener {
+
+            this.finish()
+        }
     }
+
+
 
     private val TAG = "CameraActivity"
     private val SENSOR_ORIENTATION_DEFAULT_DEGREES = 90

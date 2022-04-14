@@ -44,11 +44,14 @@ class ArtistDetailsActivity : AppCompatActivity() {
     private val CAMERA_REQUEST = 1888
     private val imageView: ImageView? = null
     private val MY_CAMERA_PERMISSION_CODE = 100
+
     val args: ArtistDetailsActivityArgs by navArgs()
+
     companion object {
         private const val CAMERA_PERMISSION_CODE = 100
         private const val STORAGE_PERMISSION_CODE = 101
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_artist_details)
@@ -74,8 +77,8 @@ class ArtistDetailsActivity : AppCompatActivity() {
                 // Requesting the permission
                 ActivityCompat.requestPermissions(this@ArtistDetailsActivity, arrayOf(Manifest.permission.CAMERA), CAMERA_PERMISSION_CODE)
             } else {
-                intent.putExtra("artist", result)
                 val intent = Intent(it.context, IncomingRingingActivity::class.java)
+                intent.putExtra("artist", result)
                 it.context.startActivity(intent)
             }
         }
