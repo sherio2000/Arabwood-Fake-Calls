@@ -4,21 +4,13 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.ContentValues.TAG
 import android.graphics.Color
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.Menu
-import android.view.View
-import android.widget.LinearLayout
-import androidx.appcompat.widget.SearchView
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
-import androidx.core.content.ContentProviderCompat.requireContext
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.coroutineScope
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.example.awfc.R
 import com.example.awfc.adapters.ArtistsAdapter
@@ -38,8 +30,6 @@ import pub.devrel.easypermissions.EasyPermissions
 class MainActivity : AppCompatActivity(), ArtistsAdapter.OnArtistListener {
 
     private lateinit var binding: ActivityMainBinding
-
-    private val mAdapter by lazy { ArtistsAdapter(this) }
 
     private val mainViewModel: MainViewModel by viewModels()
     private lateinit var viewPager2:ViewPager2
@@ -89,7 +79,6 @@ class MainActivity : AppCompatActivity(), ArtistsAdapter.OnArtistListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if(query != null){
                     searchArtist(query)
-                    mAdapter.notifyDataSetChanged()
                 }
                 return true
             }
@@ -98,7 +87,6 @@ class MainActivity : AppCompatActivity(), ArtistsAdapter.OnArtistListener {
             override fun onQueryTextChange(newText: String?): Boolean {
                 if(newText != null){
                     searchArtist(newText)
-                    mAdapter.notifyDataSetChanged()
                 }
                 return true
             }

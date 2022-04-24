@@ -84,13 +84,14 @@
                 android:src="@drawable/switch_camera_ic" />
 
             <ImageView
-                android:id="@+id/btnEndCall"
+
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_weight="1"
                 android:src="@drawable/mic_ic" />
 
             <ImageView
+                android:id="@+id/btnEndCall"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_weight="1"

@@ -1,12 +1,6 @@
 package com.example.awfc.adapters
 
-import android.annotation.SuppressLint
-import android.content.ContentValues.TAG
-import android.content.Intent
-import android.service.autofill.OnClickAction
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -45,7 +39,6 @@ class ArtistsAdapter(var artistListener: OnArtistListener) : RecyclerView.Adapte
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        Log.i(TAG, "OnCreateViewHolder initiated")
         return MyViewHolder(
             ArtistRowLayoutBinding.inflate(
                 LayoutInflater.from(parent.context),
@@ -59,22 +52,18 @@ class ArtistsAdapter(var artistListener: OnArtistListener) : RecyclerView.Adapte
         val currentResult = artists[position]
         holder.bind(currentResult)
         holder.init(currentResult, artistListener)
-        Log.i(TAG, "OnBindViewHOlder initiated")
     }
 
     override fun getItemCount(): Int {
         return artists.size
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     fun setData(newData: List<Artist>) {
         val artistsDiffUtil = ArtistsDiffUtil(artists, newData)
         val diffUtilResult = DiffUtil.calculateDiff(artistsDiffUtil)
         artists = emptyList()
         artists = newData
         diffUtilResult.dispatchUpdatesTo(this)
-        this.notifyDataSetChanged()
-        //this.notifyDataSetChanged()
     }
     interface OnArtistListener {
         fun onArtistClick(artist:Artist, position: Int)

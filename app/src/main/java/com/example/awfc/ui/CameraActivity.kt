@@ -9,7 +9,6 @@ import android.graphics.SurfaceTexture
 import android.hardware.camera2.*
 import android.media.MediaRecorder
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.HandlerThread
@@ -19,10 +18,8 @@ import android.util.SparseIntArray
 import android.view.Surface
 import android.view.TextureView
 import android.view.View
-import android.webkit.ConsoleMessage
-import android.widget.Button
-import android.widget.ImageView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.FragmentActivity
@@ -32,12 +29,10 @@ import com.example.awfc.databinding.ActivityCameraBinding
 import com.example.awfc.utils.AutoFitTextureView
 import com.example.awfc.utils.CompareSizesByArea
 import com.example.awfc.utils.LoadingDialog
-import java.io.Console
 import java.io.IOException
 import java.util.*
 import java.util.concurrent.Semaphore
 import java.util.concurrent.TimeUnit
-import kotlin.math.log
 
 class CameraActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissionsResultCallback {
 
@@ -78,9 +73,7 @@ class CameraActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissionsR
             Log.d("CameraActivity", "onCreate: error : ${e.message}")
         }
 
-        var endCallBtn  = findViewById<ImageView>(R.id.btnEndCall)
-        endCallBtn.setOnClickListener {
-
+        binding.btnEndCall.setOnClickListener {
             this.finish()
         }
     }
