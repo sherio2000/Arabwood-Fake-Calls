@@ -3,8 +3,6 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="no_internet_connection">No Internet Connection</string>
-    <string name="voice_call">Voice Call</string>
-    <string name="video_call">Video Call</string>
     <string name="errorResponse_noData">No data</string>
     <string name="errorResponse_failedToRetrieveData">Failed to retrieve data</string>
     <string name="connecting">Connecting ...</string>

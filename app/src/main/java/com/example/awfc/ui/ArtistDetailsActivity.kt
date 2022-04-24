@@ -24,6 +24,8 @@ import com.squareup.picasso.Picasso
 import android.graphics.Bitmap
 
 import android.app.Activity
+import android.app.AlertDialog
+import android.content.DialogInterface
 
 import android.widget.Toast
 
@@ -31,12 +33,17 @@ import androidx.core.app.ActivityCompat.startActivityForResult
 
 import android.content.pm.PackageManager
 import android.os.Build
+import android.os.Handler
 import android.provider.MediaStore
+import android.service.autofill.OnClickAction
 
 import androidx.annotation.NonNull
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.*
+import java.util.concurrent.Delayed
+import kotlin.concurrent.schedule
 
 @AndroidEntryPoint
 class ArtistDetailsActivity : AppCompatActivity() {
@@ -72,12 +79,16 @@ class ArtistDetailsActivity : AppCompatActivity() {
         val artist = Artist(
             0,
             intent.getStringExtra("artistName").toString(),
+            intent.getStringExtra("arabicName").toString(),
+            intent.getStringExtra("arabicDesc").toString(),
             intent.getStringExtra("artistDesc").toString(),
             intent.getStringExtra("artistImage").toString(),
             intent.getStringExtra("artistVideo1").toString(),
             intent.getStringExtra("artistVideo2").toString(),
             intent.getStringExtra("artistVideo3").toString()
         )
+        val durations : Array<String> = arrayOf("5 seconds","10 seconds","30 seconds","1 minute","2 minutes")
+        val builder = AlertDialog.Builder(this)
 
         findViewById<Button>(R.id.incomingCallBtn).setOnClickListener {
 
@@ -85,12 +96,45 @@ class ArtistDetailsActivity : AppCompatActivity() {
                 // Requesting the permission
                 ActivityCompat.requestPermissions(this@ArtistDetailsActivity, arrayOf(Manifest.permission.CAMERA), CAMERA_PERMISSION_CODE)
             } else {
-                val intent = Intent(it.context, IncomingRingingActivity::class.java)
-                intent.putExtra("artist", artist)
-                it.context.startActivity(intent)
+                builder.setTitle("Receive call in ...")
+                builder.setItems(durations) { _, i ->
+                    if ("5 seconds" == durations[i]) {
+                        Log.d("ITem Cliked", durations[i])
+                        this.finish()
+                        initiateIncomingCall(it, 5000, artist)
+                    } else if("10 seconds" == durations[i])
+                    {
+                        this.finish()
+                        initiateIncomingCall(it, 10000, artist)
+                    } else if("30 seconds" == durations[i])
+                    {
+                        this.finish()
+                        initiateIncomingCall(it, 30000, artist)
+                    } else  if("1 minute" == durations[i])
+                    {
+                        this.finish()
+                        initiateIncomingCall(it, 60000, artist)
+
+                    } else if("2 minutes" == durations[i])
+                    {
+                        this.finish()
+                        initiateIncomingCall(it, 120000, artist)
+                    }
+                }
+                builder.show()
+
             }
         }
 
+    }
+
+    private fun initiateIncomingCall(it: View, duration: Long, artist: Artist){
+        Timer().schedule(duration)
+        {
+            val intent = Intent(it.context, IncomingRingingActivity::class.java)
+            intent.putExtra("artist", artist)
+            it.context.startActivity(intent)
+        }
     }
 
     override fun onRequestPermissionsResult(requestCode: Int,

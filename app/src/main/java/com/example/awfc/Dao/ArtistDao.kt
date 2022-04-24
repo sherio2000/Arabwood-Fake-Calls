@@ -9,4 +9,7 @@ import kotlinx.coroutines.flow.Flow
 interface ArtistDao {
     @Query("SELECT * FROM artist")
     fun readAll(): Flow<List<Artist>>
+
+    @Query("SELECT * FROM artist WHERE name LIKE :searchQuery")
+    fun searchArtists(searchQuery: String): Flow<List<Artist>>
 }

@@ -1,18 +1,14 @@
 package com.example.awfc.ui
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.appcompat.widget.Toolbar
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.coroutineScope
-import androidx.navigation.Navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.awfc.R
@@ -32,26 +28,31 @@ class VideoCallHomeFragment : Fragment() , ArtistsAdapter.OnArtistListener {
     private lateinit var mView: View
     private lateinit var artists: List<Artist>
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
+    ): View? {
         // Inflate the layout for this fragment
         mView = inflater.inflate(R.layout.fragment_video_call_home, container, false)
-        val shimmer = mView.findViewById<ShimmerRecyclerView>(R.id.recycler_view)
-        shimmer.showShimmer()
+        setHasOptionsMenu(true)
+
         setupRecyclerView()
         mainViewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
+        mainViewModel.artistsResponse.observe(viewLifecycleOwner, Observer {
+            mAdapter.setData(it)
+        })
+
         lifecycle.coroutineScope.launch {
             mainViewModel.getArtists().collect {
+                mainViewModel.artistsResponse.value = it
                 artists = it
                 mAdapter.setData(it)
-                shimmer.hideShimmer()
             }
         }
 
@@ -59,11 +60,12 @@ class VideoCallHomeFragment : Fragment() , ArtistsAdapter.OnArtistListener {
     }
 
 
+
     @SuppressLint("CutPasteId")
-    private fun setupRecyclerView()
+    fun setupRecyclerView()
     {
         mView.findViewById<RecyclerView>(R.id.recycler_view).adapter = mAdapter
-        mView.findViewById<RecyclerView>(R.id.recycler_view).layoutManager = LinearLayoutManager(requireContext())
+        mView.findViewById<RecyclerView>(R.id.recycler_view).layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
     }
 
@@ -71,6 +73,8 @@ class VideoCallHomeFragment : Fragment() , ArtistsAdapter.OnArtistListener {
         artists[position]
         val intent = Intent(this.context, ArtistDetailsActivity::class.java)
         intent.putExtra("artistName", artist.name)
+        intent.putExtra("arabicName", artist.name_arabic)
+        intent.putExtra("arabicDesc", artist.description_arabic)
         intent.putExtra("artistDesc", artist.description)
         intent.putExtra("artistImage", artist.image)
         intent.putExtra("artistVideo1", artist.videoUrl1)
@@ -78,5 +82,8 @@ class VideoCallHomeFragment : Fragment() , ArtistsAdapter.OnArtistListener {
         intent.putExtra("artistVideo3", artist.videoUrl3)
         startActivity(intent)
     }
+
+
+
 
 }

@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "cae5901b837df97f394caf5327c6e41b",
+    "identityHash": "5a73c0f4d87ead62acbbff8ec11e1a47",
     "entities": [
       {
         "tableName": "artist",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `image` TEXT NOT NULL, `videoUrl1` TEXT NOT NULL, `videoUrl2` TEXT, `videoUrl3` TEXT)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `name_arabic` TEXT NOT NULL, `description_arabic` TEXT NOT NULL, `description` TEXT NOT NULL, `image` TEXT NOT NULL, `videoUrl1` TEXT NOT NULL, `videoUrl2` TEXT, `videoUrl3` TEXT)",
         "fields": [
           {
             "fieldPath": "id",
@@ -17,6 +17,18 @@
           {
             "fieldPath": "name",
             "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name_arabic",
+            "columnName": "name_arabic",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "description_arabic",
+            "columnName": "description_arabic",
             "affinity": "TEXT",
             "notNull": true
           },
@@ -64,7 +76,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'cae5901b837df97f394caf5327c6e41b')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '5a73c0f4d87ead62acbbff8ec11e1a47')"
     ]
   }
 }

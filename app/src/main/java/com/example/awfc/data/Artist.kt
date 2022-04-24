@@ -12,6 +12,10 @@ data class Artist(
     @PrimaryKey(autoGenerate = true)
     val id: Int,
     var name: String,
+    @Nullable
+    var name_arabic: String,
+    @Nullable
+    var description_arabic: String,
     var description: String,
     var image: String,
     var videoUrl1: String,

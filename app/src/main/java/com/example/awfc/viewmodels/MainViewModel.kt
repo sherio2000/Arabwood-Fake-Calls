@@ -7,9 +7,7 @@ import android.net.NetworkCapabilities
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.example.awfc.Dao.ArtistDao
 import com.example.awfc.data.Artist
 import com.example.awfc.data.ArtistRepository
@@ -27,6 +25,9 @@ class MainViewModel @ViewModelInject constructor(
     var artistsResponse: MutableLiveData<List<Artist>> = MutableLiveData()
 
     fun getArtists(): Flow<List<Artist>> = artistDao.readAll()
+    fun searchArtist(searchQuery: String): Flow<List<Artist>> {
+        return artistDao.searchArtists(searchQuery)
+    }
 
     @RequiresApi(Build.VERSION_CODES.M)
     private fun hasInternetConnection(): Boolean {
