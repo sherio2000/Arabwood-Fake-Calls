@@ -6,4 +6,6 @@
     <string name="errorResponse_noData">No data</string>
     <string name="errorResponse_failedToRetrieveData">Failed to retrieve data</string>
     <string name="connecting">Connecting ...</string>
+    <string name="screen_record_call">Screen Record Video Call</string>
+    <string name="schedule_call">  Schedule call</string>
 </resources>

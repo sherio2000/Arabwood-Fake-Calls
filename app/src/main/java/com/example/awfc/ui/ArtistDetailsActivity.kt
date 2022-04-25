@@ -39,6 +39,7 @@ import android.service.autofill.OnClickAction
 
 import androidx.annotation.NonNull
 import androidx.annotation.RequiresApi
+import androidx.cardview.widget.CardView
 import androidx.core.app.ActivityCompat
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
@@ -67,6 +68,11 @@ class ArtistDetailsActivity : AppCompatActivity() {
         toolbar.setTitle("Details")
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
+//        val cardView = findViewById<CardView>(R.id.artistDetailsNameCV)
+//        cardView.elevation = 20F
+//        cardView.radius = 10F
+//        cardView.cardElevation = 30F
+//        cardView.preventCornerOverlap = true
 
         val image = findViewById<ImageView>(R.id.artistDetailsIV)
         val artistTitle = findViewById<TextView>(R.id.artistDetailsNameTV)
