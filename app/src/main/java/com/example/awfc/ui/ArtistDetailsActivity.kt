@@ -25,6 +25,10 @@ import android.graphics.Bitmap
 
 import android.app.Activity
 import android.app.AlertDialog
+import android.app.job.JobInfo
+import android.app.job.JobScheduler
+import android.app.job.JobService
+import android.content.ComponentName
 import android.content.DialogInterface
 
 import android.widget.Toast
@@ -32,16 +36,26 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat.startActivityForResult
 
 import android.content.pm.PackageManager
+import android.net.Network
 import android.os.Build
 import android.os.Handler
+import android.os.PersistableBundle
 import android.provider.MediaStore
 import android.service.autofill.OnClickAction
+import androidx.activity.viewModels
 
 import androidx.annotation.NonNull
 import androidx.annotation.RequiresApi
 import androidx.cardview.widget.CardView
 import androidx.core.app.ActivityCompat
+import androidx.lifecycle.lifecycleScope
+import com.example.awfc.utils.InitiateCallService
+import com.example.awfc.viewmodels.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import java.sql.Time
 import java.util.*
 import java.util.concurrent.Delayed
 import kotlin.concurrent.schedule
@@ -51,6 +65,8 @@ class ArtistDetailsActivity : AppCompatActivity() {
 
     private val CAMERA_REQUEST = 1888
     private val imageView: ImageView? = null
+
+    private val mainViewModel: MainViewModel by viewModels()
     private val MY_CAMERA_PERMISSION_CODE = 100
 
 
@@ -59,6 +75,7 @@ class ArtistDetailsActivity : AppCompatActivity() {
         private const val STORAGE_PERMISSION_CODE = 101
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_artist_details)
@@ -134,13 +151,32 @@ class ArtistDetailsActivity : AppCompatActivity() {
 
     }
 
-    private fun initiateIncomingCall(it: View, duration: Long, artist: Artist){
-        Timer().schedule(duration)
-        {
-            val intent = Intent(it.context, IncomingRingingActivity::class.java)
-            intent.putExtra("artist", artist)
-            it.context.startActivity(intent)
-        }
+    @DelicateCoroutinesApi
+    @RequiresApi(Build.VERSION_CODES.N)
+    private fun initiateIncomingCall(it: View, duration: Long, artist: Artist) {
+
+            val jobScheduler = getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
+            val bundle = PersistableBundle()
+            bundle.putLong("duration", duration)
+            bundle.putString("artistName", artist.name)
+            bundle.putString("artistName", artist.name)
+            bundle.putString("arabicName", artist.name_arabic)
+            bundle.putString("arabicDesc", artist.description_arabic)
+            bundle.putString("artistDesc", artist.description)
+            bundle.putString("artistImage", artist.image)
+            bundle.putString("artistVideo1", artist.videoUrl1)
+            bundle.putString("artistVideo2", artist.videoUrl2)
+            bundle.putString("artistVideo3", artist.videoUrl3)
+
+
+            val jobInfo = JobInfo.Builder(11, ComponentName(this@ArtistDetailsActivity, InitiateCallService::class.java))
+                // only add if network access is required
+                .setExtras(bundle)
+                .setPersisted(true)
+                .setMinimumLatency(duration)
+                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY).build()
+            jobScheduler.schedule(jobInfo)
+
     }
 
     override fun onRequestPermissionsResult(requestCode: Int,
