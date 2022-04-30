@@ -1,6 +1,7 @@
 package com.example.awfc.ui
 
 import android.annotation.SuppressLint
+import android.app.ActivityOptions
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
@@ -82,6 +83,7 @@ class IncomingRingingActivity : AppCompatActivity(), ActivityCompat.OnRequestPer
         binding.pickup.setOnClickListener { view: View? ->
             mp?.stop()
             intentToCamera.putExtra("artist", artist)
+            //val b = ActivityOptions.makeSceneTransitionAnimation(this).toBundle()
             uiHelper.showToastLongCustom(this, getString(R.string.connecting))
             finish()
             startActivity(intentToCamera)

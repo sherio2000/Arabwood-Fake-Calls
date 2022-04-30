@@ -42,11 +42,14 @@ class CameraActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissionsR
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_camera)
         textureView = findViewById<View>(R.id.texture) as AutoFitTextureView
         artist = intent.getParcelableExtra("artist")!!
-        loadingDialog = LoadingDialog(this)
-        loadingDialog.startLoadingDialog()
+
+        binding.pBar.visibility = View.VISIBLE
+        //loadingDialog = LoadingDialog(this)
+        //loadingDialog.startLoadingDialog()
 
         try {
 
@@ -55,16 +58,17 @@ class CameraActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissionsR
             binding.videoViewScalable.setDataSource(this@CameraActivity, uri)
             binding.videoViewScalable.isLooping = true
             binding.videoViewScalable.prepare {
-                loadingDialog.dismissDialog()
+                //loadingDialog.dismissDialog()
                 binding.videoViewScalable.findFocus()
                 binding.videoViewScalable.start()
+                binding.pBar.visibility = View.GONE
                 binding.videoViewScalable.setOnErrorListener { mp, what, extra ->
                     Toast.makeText(
                         this@CameraActivity,
                         "Error fetching video",
                         Toast.LENGTH_SHORT
                     ).show()
-                    loadingDialog.dismissDialog()
+                    binding.pBar.visibility = View.GONE
                     finish()
                     return@setOnErrorListener true
                 }
