@@ -49,6 +49,7 @@ import androidx.annotation.RequiresApi
 import androidx.cardview.widget.CardView
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.lifecycleScope
+import com.example.awfc.utils.ConnectionLiveData
 import com.example.awfc.utils.InitiateCallService
 import com.example.awfc.viewmodels.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -63,6 +64,8 @@ import kotlin.concurrent.schedule
 @AndroidEntryPoint
 class ArtistDetailsActivity : AppCompatActivity() {
 
+
+    private lateinit var connectionLiveData: ConnectionLiveData
     private val CAMERA_REQUEST = 1888
     private val imageView: ImageView? = null
 
@@ -75,21 +78,19 @@ class ArtistDetailsActivity : AppCompatActivity() {
         private const val STORAGE_PERMISSION_CODE = 101
     }
 
+
+
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_artist_details)
 
+
+
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
         toolbar.setTitle("Details")
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
-//        val cardView = findViewById<CardView>(R.id.artistDetailsNameCV)
-//        cardView.elevation = 20F
-//        cardView.radius = 10F
-//        cardView.cardElevation = 30F
-//        cardView.preventCornerOverlap = true
 
         val image = findViewById<ImageView>(R.id.artistDetailsIV)
         val artistTitle = findViewById<TextView>(R.id.artistDetailsNameTV)
@@ -150,6 +151,49 @@ class ArtistDetailsActivity : AppCompatActivity() {
         }
 
     }
+
+
+    override fun onCreateView(
+        parent: View?,
+        name: String,
+        context: Context,
+        attrs: AttributeSet
+    ): View? {
+        connectionLiveData = ConnectionLiveData(this)
+
+        connectionLiveData.observe(this , {
+                isNetworkAvailable ->
+            if(isNetworkAvailable)
+            {
+                showInternetConnection()
+            } else {
+                showNoInternetConnection()
+            }
+        })
+        return super.onCreateView(parent, name, context, attrs)
+
+    }
+
+    private fun showNoInternetConnection() {
+        val errorImageView = findViewById<ImageView>(R.id.errorIV)
+        val errorTextView = findViewById<TextView>(R.id.errorTextView)
+        val callBtn = findViewById<Button>(R.id.incomingCallBtn)
+        callBtn.visibility = View.GONE
+        errorImageView.visibility = View.VISIBLE
+        errorTextView.visibility = View.VISIBLE
+
+    }
+
+    private fun showInternetConnection() {
+        val errorImageView = findViewById<ImageView>(R.id.errorIV)
+        val errorTextView = findViewById<TextView>(R.id.errorTextView)
+        val callBtn = findViewById<Button>(R.id.incomingCallBtn)
+        callBtn.visibility = View.VISIBLE
+        errorImageView.visibility = View.GONE
+        errorTextView.visibility = View.GONE
+
+    }
+
 
     @DelicateCoroutinesApi
     @RequiresApi(Build.VERSION_CODES.N)

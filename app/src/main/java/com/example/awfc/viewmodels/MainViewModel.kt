@@ -11,6 +11,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.example.awfc.Dao.ArtistDao
 import com.example.awfc.data.Artist
+import com.example.awfc.utils.ConnectionLiveData
 import kotlinx.coroutines.flow.Flow
 
 
@@ -18,7 +19,6 @@ class MainViewModel @ViewModelInject constructor(
     private val artistDao: ArtistDao,
     application: Application
 ): AndroidViewModel(application) {
-
     var artistsResponse: MutableLiveData<List<Artist>> = MutableLiveData()
 
     fun getArtists(): Flow<List<Artist>> = artistDao.readAll()

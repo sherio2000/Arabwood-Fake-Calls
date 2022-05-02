@@ -171,6 +171,32 @@
 <!--        app:layout_constraintStart_toStartOf="parent"-->
 <!--        app:layout_constraintTop_toBottomOf="@+id/artistRecordCallSwitch" />-->
 
+    <ImageView
+        android:id="@+id/errorIV"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:alpha="0.5"
+        android:src="@drawable/sad_icon"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/artistRecordCallSwitch"
+        app:layout_constraintVertical_bias="0.37" />
+
+    <TextView
+        android:id="@+id/errorTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:alpha="0.5"
+        android:text="@string/no_internet_connection"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="@+id/errorIV"
+        app:layout_constraintStart_toStartOf="@+id/errorIV"
+        app:layout_constraintTop_toBottomOf="@+id/errorIV" />
     <Button
         android:id="@+id/incomingCallBtn"
         android:layout_width="wrap_content"

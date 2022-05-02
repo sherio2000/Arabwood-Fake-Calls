@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -15,6 +17,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.awfc.R
 import com.example.awfc.adapters.ArtistsAdapter
 import com.example.awfc.data.Artist
+import com.example.awfc.utils.ConnectionLiveData
+import com.example.awfc.utils.NetworkHelper
 import com.example.awfc.viewmodels.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -27,10 +31,12 @@ class VideoCallHomeFragment : Fragment() , ArtistsAdapter.OnArtistListener {
     private val mAdapter by lazy { ArtistsAdapter(this)}
     private lateinit var mView: View
     private lateinit var artists: List<Artist>
-
+    private lateinit var connectionLiveData: ConnectionLiveData
+    private var networkHelper = NetworkHelper()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        connectionLiveData = ConnectionLiveData(requireContext())
     }
 
     override fun onCreateView(
@@ -48,18 +54,54 @@ class VideoCallHomeFragment : Fragment() , ArtistsAdapter.OnArtistListener {
             mAdapter.setData(it)
         })
 
-        lifecycle.coroutineScope.launch {
-            mainViewModel.getArtists().collect {
-                mainViewModel.artistsResponse.value = it
-                artists = it
-                mAdapter.setData(it)
+        connectionLiveData.observe(this , {
+                isNetworkAvailable ->
+            if(isNetworkAvailable)
+            {
+                showInternetConnection()
+            } else {
+                showNoInternetConnection()
             }
+        })
+        if(networkHelper.checkForInternet(requireContext()))
+        {
+
+            lifecycle.coroutineScope.launch {
+                mainViewModel.getArtists().collect {
+                    mainViewModel.artistsResponse.value = it
+                    artists = it
+                    mAdapter.setData(it)
+                }
+            }
+
+        } else {
+            showNoInternetConnection()
         }
 
         return mView
     }
 
 
+    private fun showNoInternetConnection()
+    {
+        val imageView  = mView.findViewById<ImageView>(R.id.errorIV)
+        val textView = mView.findViewById<TextView>(R.id.errorTextView)
+        val recyclerView = mView.findViewById<RecyclerView>(R.id.recycler_view)
+
+        recyclerView.visibility = View.GONE
+        imageView.visibility = View.VISIBLE
+        textView.visibility = View.VISIBLE
+    }
+
+    fun showInternetConnection() {
+        val recyclerView = mView.findViewById<RecyclerView>(R.id.recycler_view)
+        val imageView  = mView.findViewById<ImageView>(R.id.errorIV)
+        val textView = mView.findViewById<TextView>(R.id.errorTextView)
+
+        recyclerView.visibility = View.VISIBLE
+        imageView.visibility = View.GONE
+        textView.visibility = View.GONE
+    }
 
     @SuppressLint("CutPasteId")
     fun setupRecyclerView()
@@ -82,8 +124,6 @@ class VideoCallHomeFragment : Fragment() , ArtistsAdapter.OnArtistListener {
         intent.putExtra("artistVideo3", artist.videoUrl3)
         startActivity(intent)
     }
-
-
 
 
 }
