@@ -10,6 +10,6 @@ interface ArtistDao {
     @Query("SELECT * FROM artist")
     fun readAll(): Flow<List<Artist>>
 
-    @Query("SELECT * FROM artist WHERE name LIKE :searchQuery")
+    @Query("SELECT * FROM artist WHERE name LIKE :searchQuery OR name_arabic LIKE :searchQuery")
     fun searchArtists(searchQuery: String): Flow<List<Artist>>
 }
