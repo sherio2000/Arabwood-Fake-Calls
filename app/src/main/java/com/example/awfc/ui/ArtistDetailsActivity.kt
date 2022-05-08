@@ -41,6 +41,7 @@ import android.os.Build
 import android.os.Handler
 import android.os.PersistableBundle
 import android.provider.MediaStore
+import android.provider.Settings
 import android.service.autofill.OnClickAction
 import androidx.activity.viewModels
 
@@ -115,39 +116,56 @@ class ArtistDetailsActivity : AppCompatActivity() {
         val builder = AlertDialog.Builder(this)
 
         findViewById<Button>(R.id.incomingCallBtn).setOnClickListener {
-
-            if (ContextCompat.checkSelfPermission(this@ArtistDetailsActivity, Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED) {
-                // Requesting the permission
-                ActivityCompat.requestPermissions(this@ArtistDetailsActivity, arrayOf(Manifest.permission.CAMERA), CAMERA_PERMISSION_CODE)
-            } else {
-                builder.setTitle("Receive call in ...")
-                builder.setItems(durations) { _, i ->
-                    if ("5 seconds" == durations[i]) {
-                        Log.d("ITem Cliked", durations[i])
-                        this.finish()
-                        initiateIncomingCall(it, 5000, artist)
-                    } else if("10 seconds" == durations[i])
-                    {
-                        this.finish()
-                        initiateIncomingCall(it, 10000, artist)
-                    } else if("30 seconds" == durations[i])
-                    {
-                        this.finish()
-                        initiateIncomingCall(it, 30000, artist)
-                    } else  if("1 minute" == durations[i])
-                    {
-                        this.finish()
-                        initiateIncomingCall(it, 60000, artist)
-
-                    } else if("2 minutes" == durations[i])
-                    {
-                        this.finish()
-                        initiateIncomingCall(it, 120000, artist)
-                    }
-                }
+            if(!Settings.canDrawOverlays(this))
+            {
+                // dialog box with ok btn
+                    builder.setTitle("Permission Request")
+                builder.setMessage("Please allow this app to display over other apps, then restart the app")
+                builder.setPositiveButton("OK", DialogInterface.OnClickListener{
+                    dialogInterface, i ->
+                    val myIntent = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION)
+                    startActivity(myIntent)
+                    dialogInterface.cancel()
+                })
+                builder.create()
                 builder.show()
 
+            } else {
+                if (ContextCompat.checkSelfPermission(this@ArtistDetailsActivity, Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED) {
+                    // Requesting the permission
+                    ActivityCompat.requestPermissions(this@ArtistDetailsActivity, arrayOf(Manifest.permission.CAMERA), CAMERA_PERMISSION_CODE)
+                } else {
+                    builder.setTitle("Receive call in ...")
+                    builder.setItems(durations) { _, i ->
+                        if ("5 seconds" == durations[i]) {
+                            Log.d("ITem Cliked", durations[i])
+                            this.finish()
+                            initiateIncomingCall(it, 5000, artist)
+                        } else if("10 seconds" == durations[i])
+                        {
+                            this.finish()
+                            initiateIncomingCall(it, 10000, artist)
+                        } else if("30 seconds" == durations[i])
+                        {
+                            this.finish()
+                            initiateIncomingCall(it, 30000, artist)
+                        } else  if("1 minute" == durations[i])
+                        {
+                            this.finish()
+                            initiateIncomingCall(it, 60000, artist)
+
+                        } else if("2 minutes" == durations[i])
+                        {
+                            this.finish()
+                            initiateIncomingCall(it, 120000, artist)
+                        }
+                    }
+                    builder.show()
+
+                }
             }
+
+
         }
 
     }
