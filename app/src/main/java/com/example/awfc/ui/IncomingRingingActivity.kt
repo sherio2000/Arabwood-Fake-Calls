@@ -7,6 +7,7 @@ import android.content.Intent
 import android.content.res.Configuration
 import android.graphics.Matrix
 import android.graphics.RectF
+import android.graphics.RenderEffect
 import android.graphics.SurfaceTexture
 import android.hardware.camera2.*
 import android.media.MediaPlayer
@@ -20,6 +21,7 @@ import android.util.SparseIntArray
 import android.view.Surface
 import android.view.TextureView
 import android.view.View
+import android.view.animation.Animation
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
@@ -31,7 +33,9 @@ import com.example.awfc.databinding.ActivityIncomingRingingBinding
 import com.example.awfc.utils.AutoFitTextureView
 import com.example.awfc.utils.CompareSizesByArea
 import com.example.awfc.utils.UiHelper
+import com.google.android.material.animation.AnimationUtils
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import java.io.IOException
 import java.util.*
 import java.util.concurrent.Semaphore
@@ -78,6 +82,8 @@ class IncomingRingingActivity : AppCompatActivity(), ActivityCompat.OnRequestPer
             v.vibrate(2000)
         }
 
+        startAnimation()
+
         val intentToCamera = Intent(this, CameraActivity::class.java)
 
         binding.pickup.setOnClickListener { view: View? ->
@@ -93,6 +99,18 @@ class IncomingRingingActivity : AppCompatActivity(), ActivityCompat.OnRequestPer
             mp?.stop()
             finish()
         }
+    }
+
+    private fun startAnimation()
+    {
+        val hangupIV = findViewById<ImageView>(R.id.hangup)
+        val pickupIV = findViewById<ImageView>(R.id.pickup)
+
+        val animation: Animation = android.view.animation.AnimationUtils.loadAnimation(this, R.anim.shake)
+        val animation2: Animation = android.view.animation.AnimationUtils.loadAnimation(this, R.anim.shake2)
+        hangupIV.startAnimation(animation)
+
+        pickupIV.startAnimation(animation2)
     }
 
     private val TAG = "RingingActivity"
