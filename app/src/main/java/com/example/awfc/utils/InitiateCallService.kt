@@ -1,29 +1,14 @@
 package com.example.awfc.utils
 
-import android.app.job.JobInfo
 import android.app.job.JobParameters
-import android.app.job.JobScheduler
 import android.app.job.JobService
 import android.content.ContentValues.TAG
-import android.content.Context
 import android.content.Intent
 import android.util.Log
-import androidx.loader.content.AsyncTaskLoader
 import com.example.awfc.data.Artist
 import com.example.awfc.ui.IncomingRingingActivity
-import java.util.*
-import kotlin.concurrent.schedule
-import kotlin.properties.Delegates
-import android.R
-import android.app.*
 
-import android.graphics.Color
-
-import androidx.core.app.NotificationCompat
-import android.app.PendingIntent
-import android.os.*
 import kotlinx.coroutines.*
-import java.lang.Runnable
 
 
 @DelicateCoroutinesApi

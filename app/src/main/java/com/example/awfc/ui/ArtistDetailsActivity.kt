@@ -1,8 +1,6 @@
 package com.example.awfc.ui
 
 import android.Manifest
-import android.content.Context
-import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -28,8 +26,7 @@ import android.app.AlertDialog
 import android.app.job.JobInfo
 import android.app.job.JobScheduler
 import android.app.job.JobService
-import android.content.ComponentName
-import android.content.DialogInterface
+import android.content.*
 
 import android.widget.Toast
 
@@ -52,6 +49,7 @@ import androidx.core.app.ActivityCompat
 import androidx.lifecycle.lifecycleScope
 import com.example.awfc.utils.ConnectionLiveData
 import com.example.awfc.utils.InitiateCallService
+import com.example.awfc.utils.SharedPreferences
 import com.example.awfc.viewmodels.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.DelicateCoroutinesApi

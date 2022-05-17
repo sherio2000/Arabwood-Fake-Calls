@@ -1,8 +1,10 @@
 package com.example.awfc.ui
 
 import android.annotation.SuppressLint
+import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,6 +21,7 @@ import com.example.awfc.adapters.ArtistsAdapter
 import com.example.awfc.data.Artist
 import com.example.awfc.utils.ConnectionLiveData
 import com.example.awfc.utils.NetworkHelper
+import com.example.awfc.utils.SharedPreferences
 import com.example.awfc.viewmodels.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect

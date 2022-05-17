@@ -18,6 +18,7 @@ import com.example.awfc.adapters.ViewPagerAdapter
 import com.example.awfc.data.Artist
 import com.example.awfc.databinding.ActivityMainBinding
 import com.example.awfc.utils.PermissionRequestUtil
+import com.example.awfc.utils.SharedPreferences
 import com.example.awfc.viewmodels.MainViewModel
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -38,6 +39,8 @@ class MainActivity : AppCompatActivity(), ArtistsAdapter.OnArtistListener {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        SharedPreferences().setDefaultVoiceCallPreferences(this)
 
         setSupportActionBar(findViewById(R.id.toolbar))
         val tabLayout = findViewById<TabLayout>(R.id.tab_layout)

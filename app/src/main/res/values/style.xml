@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="AppTheme.ButtonStyle" parent="Widget.AppCompat.Button.Borderless">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:padding">0dp</item>
+        <item name="android:background">@drawable/round_button_blue</item>
+    </style>
+    <style name="AppTheme.MyRadioButtonStyle" parent="@android:style/Widget.CompoundButton.RadioButton">
+        <item name="android:button">@drawable/custom_btn_radio</item>
+    </style>
+</resources>

@@ -10,8 +10,8 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <application
         android:name=".MyApplication"
@@ -21,8 +21,40 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AWFC">
-        <service android:name="com.example.awfc.utils.InitiateCallService" android:permission="android.permission.BIND_JOB_SERVICE" android:enabled="true"
-            android:exported="true"/>
+        <activity
+            android:name=".ui.DeviceVoiceCallActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.AddAudioVoiceCallActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.voiceDeviceUI.IncomingVoiceCallIos2"
+            android:exported="false" />
+        <activity
+            android:name=".ui.voiceDeviceUI.IncomingVoiceCallSamsungA10"
+            android:exported="false" />
+        <activity
+            android:name=".ui.voiceDeviceUI.IncomingVoiceCallOppo"
+            android:exported="false" />
+        <activity
+            android:name=".ui.voiceDeviceUI.IncomingVoiceCallIos12"
+            android:exported="false" />
+        <activity
+            android:name=".ui.voiceDeviceUI.IncomingVoiceCallXiaomi9"
+            android:exported="false" />
+        <activity
+            android:name=".ui.voiceDeviceUI.IncomingVoiceCallAndroidNougat"
+            android:exported="false" />
+        <activity
+            android:name=".ui.voiceDeviceUI.IncomingVoiceCallSamsungS7"
+            android:exported="false" />
+
+        <service
+            android:name=".utils.InitiateCallService"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+
         <activity
             android:name=".ui.CameraActivity"
             android:exported="false" />
@@ -31,8 +63,8 @@
             android:exported="false" />
         <activity
             android:name=".ui.IncomingRingingActivity"
-            android:showOnLockScreen="true"
-            android:exported="false" />
+            android:exported="false"
+            android:showOnLockScreen="true" />
         <activity
             android:name=".ui.ArtistDetailsActivity"
             android:exported="false" />

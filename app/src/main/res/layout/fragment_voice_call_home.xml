@@ -90,9 +90,9 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/addVoiceBtn"
-        android:layout_width="139dp"
-        android:layout_height="86dp"
-        android:layout_marginStart="30dp"
+        android:layout_width="150dp"
+        android:layout_height="110dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="65dp"
         android:backgroundTint="#3D99DF"
         android:drawableTop="@drawable/ic_baseline_mic_24"
@@ -104,24 +104,26 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/setTimeBtn"
-        android:layout_width="139dp"
-        android:layout_height="86dp"
-        android:layout_marginStart="30dp"
+        android:layout_width="150dp"
+        android:layout_height="110dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:backgroundTint="#5DA14B"
         android:drawableTop="@drawable/ic_baseline_timer_24"
         android:text="Set Timer"
         android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addVoiceBtn" />
+        app:layout_constraintTop_toBottomOf="@+id/addVoiceBtn" >
+    </com.google.android.material.button.MaterialButton>
+
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/settingsBtn"
-        android:layout_width="139dp"
-        android:layout_height="86dp"
+        android:layout_width="150dp"
+        android:layout_height="110dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="10dp"
-        android:layout_marginEnd="50dp"
+        android:layout_marginEnd="10dp"
         android:backgroundTint="#A13535"
         android:drawableTop="@drawable/ic_baseline_settings_24"
         android:text="Settings"
@@ -132,14 +134,14 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/deviceDesignBtn"
-        android:layout_width="139dp"
-        android:layout_height="86dp"
+        android:layout_width="150dp"
+        android:layout_height="110dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="65dp"
-        android:layout_marginEnd="50dp"
+        android:layout_marginEnd="10dp"
         android:backgroundTint="#876A32"
         android:drawableTop="@drawable/ic_baseline_phone_android_24"
-        android:text="Select Device"
+        android:text="Set Device"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/addVoiceBtn"
