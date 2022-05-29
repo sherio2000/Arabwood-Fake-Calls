@@ -61,7 +61,7 @@
                             android:layout_width="150dp"
                             android:layout_height="220dp"
                             android:layout_marginTop="20dp"
-                            android:scaleType="centerCrop"
+                            android:scaleType="fitCenter"
                             android:src="@drawable/android_nougat" />
 
                         <LinearLayout
@@ -95,8 +95,8 @@
                             android:layout_width="150dp"
                             android:layout_height="220dp"
                             android:layout_marginTop="20dp"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/android_nougat" />
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/ios_device_12_1" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -107,7 +107,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:text="Android Nougat" />
+                                android:text="IPhone ios 12" />
                         </LinearLayout>
                     </LinearLayout>
 
@@ -143,8 +143,8 @@
                             android:layout_width="150dp"
                             android:layout_height="220dp"
                             android:layout_marginTop="20dp"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/android_nougat" />
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/ios_device_12_2_incoming" />
 
                         <LinearLayout
                             android:layout_width="match_parent"

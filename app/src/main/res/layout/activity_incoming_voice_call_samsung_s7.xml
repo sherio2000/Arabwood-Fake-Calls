@@ -6,4 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".ui.voiceDeviceUI.IncomingVoiceCallSamsungS7">
 
+
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

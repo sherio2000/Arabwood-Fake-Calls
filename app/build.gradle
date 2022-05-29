@@ -115,4 +115,6 @@ dependencies {
 
     implementation 'pl.bclogic:pulsator4droid:1.0.3'
 
+    implementation "com.ncorti:slidetoact:0.9.0"
+
 }
