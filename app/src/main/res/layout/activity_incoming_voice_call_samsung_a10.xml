@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/samsung_s7_bg"
+    android:background="@drawable/samsung_a10_bg"
     tools:context=".ui.voiceDeviceUI.IncomingVoiceCallSamsungA10">
 
     <ImageView
@@ -86,6 +86,7 @@
         android:id="@+id/chevronLeftIV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="5dp"
         android:layout_marginBottom="90dp"
         app:layout_constraintBottom_toTopOf="@+id/appCompatImageView"
         app:layout_constraintEnd_toStartOf="@id/declineBtnIV"

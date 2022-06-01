@@ -8,10 +8,7 @@ import android.widget.ImageView
 import android.widget.RadioButton
 import androidx.appcompat.widget.Toolbar
 import com.example.awfc.R
-import com.example.awfc.ui.voiceDeviceUI.IncomingVoiceCallAndroidNougat
-import com.example.awfc.ui.voiceDeviceUI.IncomingVoiceCallIos12
-import com.example.awfc.ui.voiceDeviceUI.IncomingVoiceCallIos2
-import com.example.awfc.ui.voiceDeviceUI.IncomingVoiceCallSamsungA10
+import com.example.awfc.ui.voiceDeviceUI.*
 import com.example.awfc.utils.SharedPreferences
 
 class DeviceVoiceCallActivity : AppCompatActivity() {
@@ -122,10 +119,12 @@ class DeviceVoiceCallActivity : AppCompatActivity() {
                 startActivity(intent)
             }
             5 -> {
-
+                val intent = Intent(this, IncomingVoiceCallSamsungS7::class.java)
+                startActivity(intent)
             }
             6 -> {
-
+                val intent = Intent(this, IncomingVoiceCallOppo::class.java)
+                startActivity(intent)
             }
         }
     }

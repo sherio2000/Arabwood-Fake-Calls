@@ -107,7 +107,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:text="IPhone ios 12" />
+                                android:text="IPhone ios" />
                         </LinearLayout>
                     </LinearLayout>
 
@@ -155,7 +155,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:text="Android Nougat" />
+                                android:text="IPhone ios 12" />
                         </LinearLayout>
                     </LinearLayout>
 
@@ -177,8 +177,8 @@
                             android:layout_width="150dp"
                             android:layout_height="220dp"
                             android:layout_marginTop="20dp"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/android_nougat" />
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/android_a10" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -189,7 +189,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:text="Android Nougat" />
+                                android:text="Samsung A10" />
                         </LinearLayout>
                     </LinearLayout>
 
@@ -226,8 +226,8 @@
                             android:layout_width="150dp"
                             android:layout_height="220dp"
                             android:layout_marginTop="20dp"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/android_nougat" />
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/samsung_s7" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -238,7 +238,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:text="Android Nougat" />
+                                android:text="Samsung S7" />
                         </LinearLayout>
                     </LinearLayout>
 
@@ -260,8 +260,8 @@
                             android:layout_width="150dp"
                             android:layout_height="220dp"
                             android:layout_marginTop="20dp"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/android_nougat" />
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/oppo_incoming_call" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -272,7 +272,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:text="Android Nougat" />
+                                android:text="Oppo" />
                         </LinearLayout>
                     </LinearLayout>
 

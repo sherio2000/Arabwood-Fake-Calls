@@ -40,7 +40,11 @@ class MainActivity : AppCompatActivity(), ArtistsAdapter.OnArtistListener {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        SharedPreferences().setDefaultVoiceCallPreferences(this)
+        if(!SharedPreferences().isDefaultConfigSet(this))
+        {
+            SharedPreferences().setDefaultVoiceCallPreferences(this)
+            SharedPreferences().setIsDefaultConfigSet(this)
+        }
 
         setSupportActionBar(findViewById(R.id.toolbar))
         val tabLayout = findViewById<TabLayout>(R.id.tab_layout)

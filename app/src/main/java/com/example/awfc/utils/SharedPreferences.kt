@@ -86,4 +86,18 @@ class SharedPreferences {
         editor.apply()
     }
 
+    fun setIsDefaultConfigSet(activity: Activity)
+    {
+        val sharedPreferences = activity.getSharedPreferences(this.PREF_NAME, Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putBoolean("isDefaultConfigSet", true)
+        editor.apply()
+    }
+
+    fun isDefaultConfigSet(activity: Activity) : Boolean
+    {
+        val sharedPreferences  = activity.getSharedPreferences(this.PREF_NAME, Context.MODE_PRIVATE)
+        return sharedPreferences.getBoolean("isDefaultConfigSet", false)
+    }
+
 }

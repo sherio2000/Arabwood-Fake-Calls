@@ -97,7 +97,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
-        android:text="TextView"
+        android:text="Private Number"
         android:textSize="30dp"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
