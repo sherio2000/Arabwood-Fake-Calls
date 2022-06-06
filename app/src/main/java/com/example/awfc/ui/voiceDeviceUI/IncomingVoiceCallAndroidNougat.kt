@@ -2,6 +2,7 @@ package com.example.awfc.ui.voiceDeviceUI
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.media.MediaPlayer
 import android.media.RingtoneManager
 import androidx.appcompat.app.AppCompatActivity
@@ -32,7 +33,7 @@ class IncomingVoiceCallAndroidNougat : AppCompatActivity() {
         mp = MediaPlayer.create(this, notification)
         mp?.start()
 
-        startPulse();
+        startPulse()
 
         val answerIcon = findViewById<ImageView>(R.id.answerIconIV)
         val declineIcon = findViewById<ImageView>(R.id.declineIconIV)
@@ -81,11 +82,9 @@ class IncomingVoiceCallAndroidNougat : AppCompatActivity() {
             override fun onSwipeRight() {
                 mp?.stop()
                 stopPulse()
-                Toast.makeText(
-                    this@IncomingVoiceCallAndroidNougat,
-                    "Swipe Right gesture detected",
-                    Toast.LENGTH_SHORT
-                ).show()
+                this@IncomingVoiceCallAndroidNougat.finish()
+                val intent = Intent(this@IncomingVoiceCallAndroidNougat, IncomingCallAndroidNougatHome::class.java)
+                startActivity(intent)
                 super.onSwipeRight()
             }
         })
@@ -134,5 +133,10 @@ class IncomingVoiceCallAndroidNougat : AppCompatActivity() {
 
             handlerAnimation.postDelayed(this, 1500)
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mp?.stop()
     }
 }

@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/oppo_bg"
+    tools:context=".ui.voiceDeviceUI.IncomingVoiceCallOppoHome">
+
+
+    <TextView
+        android:id="@+id/callerIdTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Private Number"
+        android:textColor="@color/white"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.100000024" />
+
+    <TextView
+        android:id="@+id/callerNumTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="000000000 Mobile"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="@+id/callerIdTv"
+        app:layout_constraintStart_toStartOf="@+id/callerIdTv"
+        app:layout_constraintTop_toBottomOf="@+id/callerIdTv" />
+
+    <ImageView
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="5dp"
+        android:src="@drawable/sim_card_1"
+        app:layout_constraintEnd_toStartOf="@+id/callerNumTv"
+        app:layout_constraintTop_toBottomOf="@+id/callerIdTv" />
+
+    <Chronometer
+        android:id="@+id/chronometerOppo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/callerNumTv" />
+
+    <ImageView
+        android:id="@+id/recordCallIV"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="2dp"
+        android:rotation="180"
+        android:src="@drawable/ic_baseline_voicemail"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.17"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/recordCallTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:text="Record"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="@+id/recordCallIV"
+        app:layout_constraintStart_toStartOf="@+id/recordCallIV"
+        app:layout_constraintTop_toBottomOf="@+id/recordCallIV" />
+
+    <ImageView
+        android:id="@+id/addCallIV"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="2dp"
+        android:rotation="180"
+        android:src="@drawable/ic_baseline_add"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.83"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/white" />
+
+    <TextView
+        android:id="@+id/addCallTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:text="Add Call"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="@+id/addCallIV"
+        app:layout_constraintStart_toStartOf="@+id/addCallIV"
+        app:layout_constraintTop_toBottomOf="@+id/addCallIV" />
+
+    <ImageView
+        android:id="@+id/pauseCircleIV"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:rotation="180"
+        android:src="@drawable/ic_baseline_pause_circle"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/addCallIV"
+        app:layout_constraintStart_toEndOf="@+id/recordCallIV"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/white" />
+
+    <TextView
+        android:id="@+id/pauseCircleTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:text="Hold"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="@+id/pauseCircleIV"
+        app:layout_constraintStart_toStartOf="@+id/pauseCircleIV"
+        app:layout_constraintTop_toBottomOf="@+id/pauseCircleIV" />
+
+
+    <ImageView
+        android:id="@+id/muteMicIV"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="2dp"
+        android:src="@drawable/ic_mic_off"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.17"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recordCallTV"
+        app:layout_constraintVertical_bias="0.100000024"
+        app:tint="@color/white" />
+
+    <TextView
+        android:id="@+id/muteMicTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:text="Silent"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="@+id/muteMicIV"
+        app:layout_constraintStart_toStartOf="@+id/muteMicIV"
+        app:layout_constraintTop_toBottomOf="@+id/muteMicIV" />
+
+    <ImageView
+        android:id="@+id/keypadIV"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="2dp"
+        android:src="@drawable/ic_dialpad"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.83"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addCallTv"
+        app:layout_constraintVertical_bias="0.100000024"
+        app:tint="@color/white" />
+
+    <TextView
+        android:id="@+id/keypadTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:text="Keypad"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="@+id/keypadIV"
+        app:layout_constraintStart_toStartOf="@+id/keypadIV"
+        app:layout_constraintTop_toBottomOf="@+id/keypadIV" />
+
+    <ImageView
+        android:id="@+id/speakerIV"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/ic_volume_up"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/addCallIV"
+        app:layout_constraintStart_toEndOf="@+id/recordCallIV"
+        app:layout_constraintTop_toBottomOf="@+id/pauseCircleTV"
+        app:layout_constraintVertical_bias="0.100000024"
+        app:tint="@color/white" />
+
+    <TextView
+        android:id="@+id/speakerTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:text="Speaker"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="@+id/speakerIV"
+        app:layout_constraintStart_toStartOf="@+id/speakerIV"
+        app:layout_constraintTop_toBottomOf="@+id/speakerIV" />
+
+    <ImageView
+        android:id="@+id/endCallBtnIV"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:src="@drawable/decline_icon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.51"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/speakerTV" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

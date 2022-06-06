@@ -9,88 +9,99 @@
 
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/acceptBtn"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:layout_marginEnd="70dp"
-        android:layout_marginBottom="5dp"
         android:src="@drawable/ios_answer"
-        app:layout_constraintBottom_toTopOf="@+id/acceptTv"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.76"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        app:layout_constraintVertical_bias="0.17000002" />
 
     <TextView
         android:id="@+id/acceptTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="90dp"
-        android:layout_marginBottom="130dp"
+        android:layout_marginTop="2dp"
         android:text="Accept"
         android:textColor="#ffff"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="@+id/acceptBtn"
+        app:layout_constraintStart_toStartOf="@+id/acceptBtn"
+        app:layout_constraintTop_toBottomOf="@+id/acceptBtn" />
 
 
     <ImageView
+        android:id="@+id/declineBtnIV"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:layout_marginStart="70dp"
-        android:layout_marginBottom="5dp"
         android:src="@drawable/decline_icon"
-        app:layout_constraintBottom_toTopOf="@+id/acceptTv"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.25"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/messageICTV"
+        app:layout_constraintVertical_bias="0.17000002" />
 
     <TextView
         android:id="@+id/declineTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="90dp"
-        android:layout_marginBottom="130dp"
+        android:layout_marginTop="2dp"
         android:text="Decline"
         android:textColor="#ffff"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintEnd_toEndOf="@+id/declineBtnIV"
+        app:layout_constraintStart_toStartOf="@+id/declineBtnIV"
+        app:layout_constraintTop_toBottomOf="@+id/declineBtnIV" />
 
     <ImageView
         android:id="@+id/imageView7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="100dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:src="@drawable/ic_baseline_chat_bubble"
-        app:layout_constraintBottom_toTopOf="@+id/textView2"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.73"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/incomingCallTv"
+        app:layout_constraintVertical_bias="0.52" />
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="90dp"
-        android:layout_marginBottom="25dp"
+        android:layout_marginTop="2dp"
         android:text="Message"
-        android:textSize="10dp"
         android:textColor="@color/white"
-        app:layout_constraintBottom_toTopOf="@+id/imageView"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:textSize="10dp"
+        app:layout_constraintEnd_toEndOf="@+id/imageView7"
+        app:layout_constraintStart_toStartOf="@+id/imageView7"
+        app:layout_constraintTop_toBottomOf="@+id/imageView7" />
 
     <ImageView
         android:id="@+id/messageIC"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:src="@drawable/ic_baseline_alarm"
-        app:layout_constraintBottom_toTopOf="@+id/textView2"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/imageView7"
+        app:layout_constraintHorizontal_bias="0.44"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/incomingCallTv"
+        app:layout_constraintVertical_bias="0.52" />
 
     <TextView
         android:id="@+id/messageICTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="92dp"
-        android:layout_marginBottom="25dp"
+        android:layout_marginTop="2dp"
         android:text="Remind Me"
         android:textColor="@color/white"
         android:textSize="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/imageView"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toEndOf="@+id/messageIC"
+        app:layout_constraintStart_toStartOf="@+id/messageIC"
+        app:layout_constraintTop_toBottomOf="@+id/messageIC" />
 
     <TextView
         android:id="@+id/callerNameTv"

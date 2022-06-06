@@ -22,6 +22,24 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AWFC">
         <activity
+            android:name=".ui.voiceDeviceUI.IncomingCallAndroidNougatHome"
+            android:exported="false" />
+        <activity
+            android:name=".ui.voiceDeviceUI.IncomingVoiceCallSamsungS7Home"
+            android:exported="false" />
+        <activity
+            android:name=".ui.voiceDeviceUI.IncomingVoiceCallSamsungA10Home"
+            android:exported="false" />
+        <activity
+            android:name=".ui.voiceDeviceUI.IncomingVoiceCall_Ios12_2_home"
+            android:exported="false" />
+        <activity
+            android:name=".ui.voiceDeviceUI.IncomingVoiceCallOppoHome"
+            android:exported="false" />
+        <activity
+            android:name=".ui.voiceDeviceUI.IncomingVoiceCallIos12Home"
+            android:exported="false" />
+        <activity
             android:name=".ui.DeviceVoiceCallActivity"
             android:exported="false" />
         <activity

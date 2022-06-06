@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:background="@drawable/ios_blur_background_dark"
+    tools:context=".ui.voiceDeviceUI.IncomingVoiceCall_Ios12_2_home">
+
+    <TextView
+        android:id="@+id/callerNameTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:text="Private Number"
+        android:textSize="30dp"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Chronometer
+        android:id="@+id/chronometerIphone12_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/callerNameTv" />
+
+    <ImageView
+        android:id="@+id/muteMicIV"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@drawable/iphone_mute_ic"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.15"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/chronometerIphone12_1"
+        app:layout_constraintVertical_bias="0.35000002" />
+
+    <TextView
+        android:id="@+id/muteMicTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="Mute"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="@+id/muteMicIV"
+        app:layout_constraintStart_toStartOf="@+id/muteMicIV"
+        app:layout_constraintTop_toBottomOf="@+id/muteMicIV" />
+
+    <ImageView
+        android:id="@+id/speakerIV"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@drawable/iphone_sound_ic"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.85"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/chronometerIphone12_1"
+        app:layout_constraintVertical_bias="0.35000002" />
+
+    <TextView
+        android:id="@+id/speakerTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="Speaker"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="@+id/speakerIV"
+        app:layout_constraintStart_toStartOf="@+id/speakerIV"
+        app:layout_constraintTop_toBottomOf="@+id/speakerIV" />
+
+    <ImageView
+        android:id="@+id/keypadIV"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@drawable/iphone_keypad_ic"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/speakerIV"
+        app:layout_constraintStart_toEndOf="@+id/muteMicIV"
+        app:layout_constraintTop_toBottomOf="@+id/chronometerIphone12_1"
+        app:layout_constraintVertical_bias="0.35000002" />
+
+    <TextView
+        android:id="@+id/keypadTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="Keypad"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="@+id/keypadIV"
+        app:layout_constraintStart_toStartOf="@+id/keypadIV"
+        app:layout_constraintTop_toBottomOf="@+id/keypadIV" />
+
+    <ImageView
+        android:id="@+id/addCallIV"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@drawable/iphone_add_call_ic"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.15"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/chronometerIphone12_1"
+        app:layout_constraintVertical_bias="0.57" />
+
+    <TextView
+        android:id="@+id/addCallTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="Add Call"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="@+id/addCallIV"
+        app:layout_constraintStart_toStartOf="@+id/addCallIV"
+        app:layout_constraintTop_toBottomOf="@+id/addCallIV" />
+
+    <ImageView
+        android:id="@+id/contactBtnIV"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@drawable/iphone_contacts_ic"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.85"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/chronometerIphone12_1"
+        app:layout_constraintVertical_bias="0.57" />
+
+    <TextView
+        android:id="@+id/contactBtnTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="Contact"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="@+id/contactBtnIV"
+        app:layout_constraintStart_toStartOf="@+id/contactBtnIV"
+        app:layout_constraintTop_toBottomOf="@+id/contactBtnIV" />
+
+    <ImageView
+        android:id="@+id/faceTimeIV"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@drawable/iphone_facetime_ic"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/speakerIV"
+        app:layout_constraintStart_toEndOf="@+id/muteMicIV"
+        app:layout_constraintTop_toBottomOf="@+id/chronometerIphone12_1"
+        app:layout_constraintVertical_bias="0.57" />
+
+    <TextView
+        android:id="@+id/faceTimeTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="Facetime"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="@+id/faceTimeIV"
+        app:layout_constraintStart_toStartOf="@+id/faceTimeIV"
+        app:layout_constraintTop_toBottomOf="@+id/faceTimeIV" />
+
+    <ImageView
+        android:id="@+id/endCallBtnIV"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:src="@drawable/decline_icon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.51"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/faceTimeTv" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/samsung_a10_bg"
+    tools:context=".ui.voiceDeviceUI.IncomingVoiceCallSamsungA10Home">
+
+    <Chronometer
+        android:id="@+id/chronometerSamsungA10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.050000012" />
+
+    <TextView
+        android:id="@+id/callerIdTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Private Number"
+        android:textColor="@color/white"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.26" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:textSize="15sp"
+        android:textColor="@color/white"
+        android:text="000000000000"
+        app:layout_constraintEnd_toEndOf="@+id/callerIdTv"
+        app:layout_constraintStart_toStartOf="@+id/callerIdTv"
+        app:layout_constraintTop_toBottomOf="@+id/callerIdTv" />
+
+
+    <ImageView
+        android:id="@+id/recordCallIV"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="2dp"
+        android:src="@drawable/ic_baseline_voicemail"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.17"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/recordCallTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:text="Record"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="@+id/recordCallIV"
+        app:layout_constraintStart_toStartOf="@+id/recordCallIV"
+        app:layout_constraintTop_toBottomOf="@+id/recordCallIV" />
+
+    <ImageView
+        android:id="@+id/bluetoothIV"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="2dp"
+        android:src="@drawable/ic_baseline_bluetooth"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.83"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/white" />
+
+    <TextView
+        android:id="@+id/addCallTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:text="Bluetooth"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="@+id/bluetoothIV"
+        app:layout_constraintStart_toStartOf="@+id/bluetoothIV"
+        app:layout_constraintTop_toBottomOf="@+id/bluetoothIV" />
+
+    <ImageView
+        android:id="@+id/extraVolumeIV"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/ic_baseline_ring_volume"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/bluetoothIV"
+        app:layout_constraintStart_toEndOf="@+id/recordCallIV"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/white" />
+
+    <TextView
+        android:id="@+id/pauseCircleTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:text="Extra Volume"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="@+id/extraVolumeIV"
+        app:layout_constraintStart_toStartOf="@+id/extraVolumeIV"
+        app:layout_constraintTop_toBottomOf="@+id/extraVolumeIV" />
+
+
+    <ImageView
+        android:id="@+id/speakerIV"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="2dp"
+        android:src="@drawable/ic_volume_up"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.17"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recordCallTV"
+        app:layout_constraintVertical_bias="0.100000024"
+        app:tint="@color/white" />
+
+    <TextView
+        android:id="@+id/muteMicTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:text="Speakers"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="@+id/speakerIV"
+        app:layout_constraintStart_toStartOf="@+id/speakerIV"
+        app:layout_constraintTop_toBottomOf="@+id/speakerIV" />
+
+    <ImageView
+        android:id="@+id/keypadIV"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="2dp"
+        android:src="@drawable/ic_dialpad"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.83"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addCallTv"
+        app:layout_constraintVertical_bias="0.100000024"
+        app:tint="@color/white" />
+
+    <TextView
+        android:id="@+id/keypadTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:text="Keypad"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="@+id/keypadIV"
+        app:layout_constraintStart_toStartOf="@+id/keypadIV"
+        app:layout_constraintTop_toBottomOf="@+id/keypadIV" />
+
+    <ImageView
+        android:id="@+id/muteMicIV"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/ic_mic_off"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/bluetoothIV"
+        app:layout_constraintStart_toEndOf="@+id/recordCallIV"
+        app:layout_constraintTop_toBottomOf="@+id/pauseCircleTV"
+        app:layout_constraintVertical_bias="0.100000024"
+        app:tint="@color/white" />
+
+    <TextView
+        android:id="@+id/speakerTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:text="Mute"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="@+id/muteMicIV"
+        app:layout_constraintStart_toStartOf="@+id/muteMicIV"
+        app:layout_constraintTop_toBottomOf="@+id/muteMicIV" />
+
+
+    <ImageView
+        android:id="@+id/endCallBtnIV"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:src="@drawable/decline_ic_whitebg_redfg"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.51"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/speakerTV" />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/samsung_s7_home_bg"
+    tools:context=".ui.voiceDeviceUI.IncomingVoiceCallSamsungS7Home">
+
+    <Chronometer
+        android:id="@+id/chronometerSamsungS7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/callerIdTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Private Number"
+        android:textColor="@color/white"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.3" />
+
+    <TextView
+        android:id="@+id/callerNumTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="0000000000000"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="@+id/callerIdTv"
+        app:layout_constraintStart_toStartOf="@+id/callerIdTv"
+        app:layout_constraintTop_toBottomOf="@+id/callerIdTv" />
+
+    <ImageView
+        android:id="@+id/endCallBtnIV"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginBottom="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/decline_icon" />
+
+    <ImageView
+        android:id="@+id/addCallBtn"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:src="@drawable/ic_baseline_add"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.6" />
+
+    <TextView
+        android:id="@+id/addCallTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:text="Add Call"
+        android:textColor="@color/darkGray"
+        app:layout_constraintEnd_toEndOf="@+id/addCallBtn"
+        app:layout_constraintStart_toStartOf="@+id/addCallBtn"
+        app:layout_constraintTop_toBottomOf="@+id/addCallBtn" />
+
+    <ImageView
+        android:id="@+id/extraVolumeBtn"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:src="@drawable/ic_baseline_ring_volume"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/bluetoothIV"
+        app:layout_constraintStart_toEndOf="@+id/addCallBtn"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.6"
+        app:tint="@color/darkGray" />
+
+    <TextView
+        android:id="@+id/extraVolumeTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:text="Add Call"
+        android:textColor="@color/darkGray"
+        app:layout_constraintEnd_toEndOf="@+id/extraVolumeBtn"
+        app:layout_constraintStart_toStartOf="@+id/extraVolumeBtn"
+        app:layout_constraintTop_toBottomOf="@+id/extraVolumeBtn" />
+
+    <ImageView
+        android:id="@+id/bluetoothIV"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:src="@drawable/ic_baseline_bluetooth"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.8"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.6"
+        app:tint="@color/darkGray" />
+
+    <TextView
+        android:id="@+id/bluetoothTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:text="Add Call"
+        android:textColor="@color/darkGray"
+        app:layout_constraintEnd_toEndOf="@+id/bluetoothIV"
+        app:layout_constraintStart_toStartOf="@+id/bluetoothIV"
+        app:layout_constraintTop_toBottomOf="@+id/bluetoothIV" />
+
+    <ImageView
+        android:id="@+id/speakerIV"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:src="@drawable/ic_volume_up"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.74"
+        app:tint="@color/darkGray" />
+
+    <TextView
+        android:id="@+id/speakerTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:text="Speaker"
+        android:textColor="@color/darkGray"
+        app:layout_constraintEnd_toEndOf="@+id/speakerIV"
+        app:layout_constraintStart_toStartOf="@+id/speakerIV"
+        app:layout_constraintTop_toBottomOf="@+id/speakerIV" />
+
+    <ImageView
+        android:id="@+id/keypadIV"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:src="@drawable/ic_baseline_dialpad"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/muteMicIV"
+        app:layout_constraintStart_toEndOf="@+id/speakerIV"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.74"
+        app:tint="@color/darkGray" />
+
+    <TextView
+        android:id="@+id/keypadTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:text="Keypad"
+        android:textColor="@color/darkGray"
+        app:layout_constraintEnd_toEndOf="@+id/keypadIV"
+        app:layout_constraintStart_toStartOf="@+id/keypadIV"
+        app:layout_constraintTop_toBottomOf="@+id/keypadIV" />
+
+    <ImageView
+        android:id="@+id/muteMicIV"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:src="@drawable/ic_baseline_mic_off"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.8"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.74"
+        app:tint="@color/darkGray" />
+
+    <TextView
+        android:id="@+id/muteMicTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:text="Mute"
+        android:textColor="@color/darkGray"
+        app:layout_constraintEnd_toEndOf="@+id/muteMicIV"
+        app:layout_constraintStart_toStartOf="@+id/muteMicIV"
+        app:layout_constraintTop_toBottomOf="@+id/muteMicIV" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

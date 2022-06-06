@@ -152,7 +152,7 @@ class VoiceCallHomeFragment : Fragment() {
                 button1.text = Html.fromHtml("<big>" + "<font size=10' face='arial' color='#ffffff'>" + "Set Device" + "</font>" + "</big>" +  "<br />" +
                         "<small>" +
                         "<font size=6' face='arial' color='#d9d9d9'>" +
-                        "Samsung S7 Note 5" +
+                        "IPhone ios" +
                         "</font>"
                         + "</small>" + "<br />");
             }
@@ -160,7 +160,7 @@ class VoiceCallHomeFragment : Fragment() {
                 button1.text = Html.fromHtml("<big>" + "<font size=10' face='arial' color='#ffffff'>" + "Set Device" + "</font>" + "</big>" +  "<br />" +
                         "<small>" +
                         "<font size=6' face='arial' color='#d9d9d9'>" +
-                        "Xiaomi 9" +
+                        "IPhone ios 12" +
                         "</font>"
                         + "</small>" + "<br />");
             }
@@ -168,7 +168,7 @@ class VoiceCallHomeFragment : Fragment() {
                 button1.text = Html.fromHtml("<big>" + "<font size=10' face='arial' color='#ffffff'>" + "Set Device" + "</font>" + "</big>" +  "<br />" +
                         "<small>" +
                         "<font size=6' face='arial' color='#d9d9d9'>" +
-                        "iOS 12" +
+                        "Samsung A10" +
                         "</font>"
                         + "</small>" + "<br />");
             }
@@ -176,7 +176,7 @@ class VoiceCallHomeFragment : Fragment() {
                 button1.text = Html.fromHtml("<big>" + "<font size=10' face='arial' color='#ffffff'>" + "Set Device" + "</font>" + "</big>" +  "<br />" +
                         "<small>" +
                         "<font size=6' face='arial' color='#d9d9d9'>" +
-                        "Oppo" +
+                        "Samsung S7" +
                         "</font>"
                         + "</small>" + "<br />");
             }
@@ -184,7 +184,7 @@ class VoiceCallHomeFragment : Fragment() {
                 button1.text = Html.fromHtml("<big>" + "<font size=8' face='arial' color='#ffffff'>" + "Set Device" + "</font>" + "</big>" +  "<br />" +
                         "<small>" +
                         "<font size=6' face='arial' color='#d9d9d9'>" +
-                        "Samsung A10" +
+                        "Oppo" +
                         "</font>"
                         + "</small>" + "<br />");
             }

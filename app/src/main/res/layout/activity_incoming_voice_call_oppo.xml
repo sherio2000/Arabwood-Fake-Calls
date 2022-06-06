@@ -12,13 +12,14 @@
         android:id="@+id/callerIdTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
         android:text="Private Number"
         android:textColor="@color/white"
         android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.060000002" />
 
     <TextView
         android:id="@+id/callerNumTv"
@@ -28,8 +29,8 @@
         android:text="0000000000 Mobile"
         android:textColor="@color/white"
         android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/callerIdTv"
+        app:layout_constraintStart_toStartOf="@+id/callerIdTv"
         app:layout_constraintTop_toBottomOf="@+id/callerIdTv" />
 
     <TextView
@@ -40,8 +41,8 @@
         android:text="Incoming Call"
         android:textColor="@color/white"
         android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/callerNumTv"
+        app:layout_constraintStart_toStartOf="@+id/callerNumTv"
         app:layout_constraintTop_toBottomOf="@+id/callerNumTv" />
 
     <ImageView
@@ -57,62 +58,67 @@
         android:id="@+id/answerBtnIV"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:layout_marginBottom="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/answerBtnTV"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/messageBtnIV"
         app:layout_constraintStart_toEndOf="@+id/declineBtnIV"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.85"
         app:srcCompat="@drawable/answer_ic_whitebg_greenfg" />
 
     <TextView
         android:id="@+id/answerBtnTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="50dp"
+        android:layout_marginTop="2dp"
         android:text="Slide to answer"
         android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/answerBtnIV"
-        app:layout_constraintStart_toStartOf="@+id/answerBtnIV" />
+        app:layout_constraintStart_toStartOf="@+id/answerBtnIV"
+        app:layout_constraintTop_toBottomOf="@+id/answerBtnIV" />
 
     <TextView
         android:id="@+id/messageBtnTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="50dp"
+        android:layout_marginTop="2dp"
         android:text="Message"
         android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/messageBtnIV"
-        app:layout_constraintStart_toStartOf="@+id/messageBtnIV" />
+        app:layout_constraintStart_toStartOf="@+id/messageBtnIV"
+        app:layout_constraintTop_toBottomOf="@+id/messageBtnIV" />
 
     <TextView
         android:id="@+id/declineBtnTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="50dp"
+        android:layout_marginTop="2dp"
         android:text="Deny"
         android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/declineBtnIV"
-        app:layout_constraintStart_toStartOf="@+id/declineBtnIV" />
+        app:layout_constraintStart_toStartOf="@+id/declineBtnIV"
+        app:layout_constraintTop_toBottomOf="@+id/declineBtnIV" />
 
     <ImageView
         android:id="@+id/declineBtnIV"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginBottom="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/declineBtnTV"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.17"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.85"
         app:srcCompat="@drawable/decline_btn_oppo" />
 
     <ImageView
         android:id="@+id/messageBtnIV"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginBottom="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/messageBtnTV"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.83"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.85"
         app:srcCompat="@drawable/message_icon_oppo" />
 </androidx.constraintlayout.widget.ConstraintLayout>
