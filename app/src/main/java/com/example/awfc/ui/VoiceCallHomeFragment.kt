@@ -1,10 +1,17 @@
 package com.example.awfc.ui
 
+import android.Manifest
+import android.annotation.SuppressLint
+import android.app.Activity.RESULT_OK
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.database.Cursor
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.MediaStore
 import android.provider.Settings
 import android.text.Html
 import android.util.Log
@@ -15,6 +22,9 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toolbar
 import androidx.annotation.RequiresApi
+import androidx.annotation.VisibleForTesting
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.example.awfc.R
 import com.example.awfc.ui.voiceDeviceUI.IncomingVoiceCallAndroidNougat
 import com.example.awfc.utils.SharedPreferences
@@ -27,6 +37,7 @@ class VoiceCallHomeFragment : Fragment() {
 
     private lateinit var mView: View
     private val sharedPreferences = SharedPreferences()
+    private val PICK_FILE = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,6 +57,7 @@ class VoiceCallHomeFragment : Fragment() {
         val scheduleCallBtn = mView.findViewById<MaterialButton>(R.id.scheduleCallBtn)
         val setTimeBtn = mView.findViewById<MaterialButton>(R.id.setTimeBtn)
         val setDeviceBtn = mView.findViewById<MaterialButton>(R.id.deviceDesignBtn)
+        val addVoiceBtn = mView.findViewById<MaterialButton>(R.id.addVoiceBtn)
 
         getDevicePreference(setDeviceBtn)
 
@@ -54,6 +66,29 @@ class VoiceCallHomeFragment : Fragment() {
 
         val builder = AlertDialog.Builder(this.context)
         val durations : Array<String> = arrayOf("Now","10 seconds","30 seconds","1 minute","5 minutes","10 minutes")
+        addVoiceBtn.text = Html.fromHtml("<big>" + "<font size=10' face='arial' color='#ffffff'>" + "Set Audio" + "</font>" + "</big>" +  "<br />" +
+                "<small>" +
+                "<font size=6' face='arial' color='#d9d9d9'>" +
+                "None" +
+                "</font>"
+                + "</small>" + "<br />");
+
+        addVoiceBtn.setOnClickListener {
+            if (ContextCompat.checkSelfPermission(requireActivity(),
+                    Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+
+                ActivityCompat.requestPermissions(requireActivity(),
+                    arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+                    23)
+            } else {
+                val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
+                intent.addCategory(Intent.CATEGORY_OPENABLE)
+                intent.type = "audio/*"
+                startActivityForResult(Intent.createChooser(intent, "Select Audio"), 1)
+            }
+
+        }
 
         setDeviceBtn.setOnClickListener {
             val intent = Intent(this.context, DeviceVoiceCallActivity::class.java)
@@ -118,6 +153,64 @@ class VoiceCallHomeFragment : Fragment() {
         return mView
     }
 
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode == PICK_FILE && resultCode == RESULT_OK)
+        {
+            if(data != null)
+            {
+
+                val addVoiceBtn = mView.findViewById<MaterialButton>(R.id.addVoiceBtn)
+                val uri = data.data.toString()
+                context?.let { SharedPreferences().saveAudioUri(it, uri) }
+                setAudioBtnText(addVoiceBtn)
+            }
+        }
+    }
+
+    fun setAudioBtnText(button1: Button)
+    {
+        if(getNameFromUri(this.context?.let { SharedPreferences().getAudioUri(it) }) != null)
+        {
+            val name = getNameFromUri(this.context?.let { SharedPreferences().getAudioUri(it) })
+            button1.text = Html.fromHtml("<big>" + "<font size=10' face='arial' color='#ffffff'>" + "Set Audio" + "</font>" + "</big>" +  "<br />" +
+                    "<small>" +
+                    "<font size=6' face='arial' color='#d9d9d9'>" +
+                    name +
+                    "</font>"
+                    + "</small>" + "<br />");
+        } else {
+            button1.text = Html.fromHtml("<big>" + "<font size=10' face='arial' color='#ffffff'>" + "Set Audio" + "</font>" + "</big>" +  "<br />" +
+                    "<small>" +
+                    "<font size=6' face='arial' color='#d9d9d9'>" +
+                    "None" +
+                    "</font>"
+                    + "</small>" + "<br />");
+        }
+    }
+
+    @SuppressLint("Range")
+    fun getNameFromUri(uri: Uri?): String? {
+        var fileName = ""
+        var cursor: Cursor? = null
+        cursor = uri?.let {
+            activity?.contentResolver?.query(
+                it, arrayOf(
+                    MediaStore.Images.ImageColumns.DISPLAY_NAME
+                ), null, null, null
+            )
+        }
+        if (cursor != null && cursor.moveToFirst()) {
+            fileName =
+                cursor.getString(cursor.getColumnIndex(MediaStore.Images.ImageColumns.DISPLAY_NAME))
+        }
+        if (cursor != null) {
+            cursor.close()
+        }
+        return fileName
+    }
+
     override fun onResume() {
         super.onResume()
 
@@ -126,7 +219,7 @@ class VoiceCallHomeFragment : Fragment() {
     }
 
 
-    fun refreshHomePage(button1: Button)
+    private fun refreshHomePage(button1: Button)
     {
         button1.text = Html.fromHtml("<big>" + "Set Timer" + "</big>" +  "<br />" +
                 "<small>" +
@@ -136,10 +229,9 @@ class VoiceCallHomeFragment : Fragment() {
                 + "</small>" + "<br />");
     }
 
-    fun getDevicePreference(button1: Button)
+    private fun getDevicePreference(button1: Button)
     {
-        val index = this.context?.let { sharedPreferences.getDeviceVoiceCallPreference(it) }
-        when(index) {
+        when(this.context?.let { sharedPreferences.getDeviceVoiceCallPreference(it) }) {
             1 -> {
                 button1.text = Html.fromHtml("<big>" + "<font size=10' face='arial' color='#ffffff'>" + "Set Device" + "</font>" + "</big>" +  "<br />" +
                         "<small>" +
@@ -191,8 +283,4 @@ class VoiceCallHomeFragment : Fragment() {
         }
 
     }
-
-
-
-
 }

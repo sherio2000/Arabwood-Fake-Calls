@@ -2,11 +2,12 @@ package com.example.awfc.utils
 
 import android.app.Activity
 import android.content.Context
+import android.net.Uri
 
 class SharedPreferences {
 
     private val PREF_NAME = "voiceCall"
-    private val Audio_Voice_Call_Pref_Name = "audio"
+    private val Audio_Voice_Call_Pref_Name = "audioUri"
     private val Device_Voice_Call_Pref_Name = "device"
     private val Duration_Voice_Call_Pref_Name = "duration"
 
@@ -17,14 +18,8 @@ class SharedPreferences {
 
         editor.putInt(Device_Voice_Call_Pref_Name, 1)
         editor.putInt(Duration_Voice_Call_Pref_Name, 5)
-        editor.putString(Audio_Voice_Call_Pref_Name, "")
+        editor.putString(Audio_Voice_Call_Pref_Name, null)
         editor.apply()
-    }
-
-    fun getAudioVoiceCallPreference(activity: Activity) : String
-    {
-        val sharedPreferences = activity.getSharedPreferences(this.PREF_NAME ,Context.MODE_PRIVATE)
-        return sharedPreferences.getString(Audio_Voice_Call_Pref_Name, "").toString()
     }
 
     fun getDeviceVoiceCallPreference(activity: Activity) : Int
@@ -98,6 +93,26 @@ class SharedPreferences {
     {
         val sharedPreferences  = activity.getSharedPreferences(this.PREF_NAME, Context.MODE_PRIVATE)
         return sharedPreferences.getBoolean("isDefaultConfigSet", false)
+    }
+
+    fun saveAudioUri(context: Context, uri: String)
+    {
+        val sharedPreferences = context.getSharedPreferences(this.PREF_NAME, Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putString(Audio_Voice_Call_Pref_Name, uri)
+        editor.apply()
+    }
+
+    fun getAudioUri(activity: Activity) : Uri {
+        val sharedPreferences = activity.getSharedPreferences(this.PREF_NAME ,Context.MODE_PRIVATE)
+        val uriString = sharedPreferences.getString(Audio_Voice_Call_Pref_Name, null)
+        return Uri.parse(uriString)
+    }
+
+    fun getAudioUri(context: Context) : Uri {
+        val sharedPreferences = context.getSharedPreferences(this.PREF_NAME ,Context.MODE_PRIVATE)
+        val uriString = sharedPreferences.getString(Audio_Voice_Call_Pref_Name, null)
+        return Uri.parse(uriString)
     }
 
 }

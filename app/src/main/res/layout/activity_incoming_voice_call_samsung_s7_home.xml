@@ -23,12 +23,12 @@
         android:layout_height="wrap_content"
         android:text="Private Number"
         android:textColor="@color/white"
-        android:textSize="25sp"
+        android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.3" />
+        app:layout_constraintVertical_bias="0.19999999" />
 
     <TextView
         android:id="@+id/callerNumTv"
@@ -37,7 +37,7 @@
         android:layout_marginTop="5dp"
         android:text="0000000000000"
         android:textColor="@color/white"
-        android:textSize="15sp"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="@+id/callerIdTv"
         app:layout_constraintStart_toStartOf="@+id/callerIdTv"
         app:layout_constraintTop_toBottomOf="@+id/callerIdTv" />

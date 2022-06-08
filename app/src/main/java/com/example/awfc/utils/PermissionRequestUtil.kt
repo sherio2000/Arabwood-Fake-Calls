@@ -10,4 +10,10 @@ object PermissionRequestUtil {
             context,
             Manifest.permission.CAMERA
         )
+
+    fun hasStoragePermissions(context: Context) =
+        EasyPermissions.hasPermissions(
+            context,
+            Manifest.permission.READ_EXTERNAL_STORAGE
+        )
 }
