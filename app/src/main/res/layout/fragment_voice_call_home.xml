@@ -52,6 +52,7 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/nameEditText"
+                    android:inputType="textFilter"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Name"
@@ -76,6 +77,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/phoneNumEditText"
                     android:layout_width="match_parent"
+                    android:inputType="textFilter"
                     android:layout_height="wrap_content"
                     android:hint="Phone Number"
                     android:maxLines="1" />

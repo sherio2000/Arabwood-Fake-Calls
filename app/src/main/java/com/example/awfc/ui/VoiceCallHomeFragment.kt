@@ -2,6 +2,7 @@ package com.example.awfc.ui
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Activity.FILE_INTEGRITY_SERVICE
 import android.app.Activity.RESULT_OK
 import android.app.AlertDialog
 import android.content.Intent
@@ -33,10 +34,10 @@ import dagger.hilt.android.AndroidEntryPoint
 import android.app.NotificationManager
 import android.content.Context
 import android.content.DialogInterface
+import android.provider.ContactsContract
+import android.util.Log
 import androidx.core.app.NotificationManagerCompat
-
-
-
+import com.example.awfc.utils.TAG
 
 
 @AndroidEntryPoint
@@ -46,6 +47,7 @@ class VoiceCallHomeFragment : Fragment() {
     private lateinit var mView: View
     private val sharedPreferences = SharedPreferences()
     private val PICK_FILE = 1
+    private val PICK_CONTACT = 2
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,6 +68,7 @@ class VoiceCallHomeFragment : Fragment() {
         val setTimeBtn = mView.findViewById<MaterialButton>(R.id.setTimeBtn)
         val setDeviceBtn = mView.findViewById<MaterialButton>(R.id.deviceDesignBtn)
         val addVoiceBtn = mView.findViewById<MaterialButton>(R.id.addVoiceBtn)
+        val addContactBtn = mView.findViewById<MaterialButton>(R.id.addContactBtn)
 
         getDevicePreference(setDeviceBtn)
 
@@ -79,7 +82,18 @@ class VoiceCallHomeFragment : Fragment() {
                 "<font size=6' face='arial' color='#d9d9d9'>" +
                 "None" +
                 "</font>"
-                + "</small>" + "<br />");
+                + "</small>" + "<br />")
+
+        addContactBtn.setOnClickListener {
+            if(checkContactPermission())
+            {
+                pickContact()
+                Log.i(TAG, "Permission Granted")
+            } else {
+                requestContactPermission()
+                Log.i(TAG, "Permission Denied")
+            }
+        }
 
         addVoiceBtn.setOnClickListener {
             if (ContextCompat.checkSelfPermission(requireActivity(),
@@ -244,6 +258,47 @@ class VoiceCallHomeFragment : Fragment() {
     }
 
 
+    private fun checkContactPermission() : Boolean
+    {
+        return this.context?.let {
+            ContextCompat.checkSelfPermission(
+                it,
+                Manifest.permission.READ_CONTACTS
+            )
+        } ==  PackageManager.PERMISSION_GRANTED
+    }
+
+    private fun requestContactPermission()
+    {
+        val permission = arrayOf(Manifest.permission.READ_CONTACTS)
+        ActivityCompat.requestPermissions(requireActivity(), permission, 2)
+    }
+
+    private fun pickContact() {
+        val intent = Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI)
+        startActivityForResult(intent, 2)
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        if(requestCode == 2)
+        {
+            if(grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+            {
+                pickContact()
+            } else {
+                Toast.makeText(this.context, "Permission Denied..", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+
+    @SuppressLint("Range")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode == PICK_FILE && resultCode == RESULT_OK)
@@ -255,6 +310,49 @@ class VoiceCallHomeFragment : Fragment() {
                 val uri = data.data.toString()
                 context?.let { SharedPreferences().saveAudioUri(it, uri) }
                 setAudioBtnText(addVoiceBtn)
+            }
+        }
+        if(requestCode == PICK_CONTACT && resultCode == RESULT_OK)
+        {
+            if(data != null)
+            {
+
+                val cursor1: Cursor
+                val cursor2: Cursor
+
+                val uri = data.data
+                cursor1 = uri?.let { requireActivity().contentResolver.query(it, null, null, null, null) }!!
+                if(cursor1.moveToFirst())
+                {
+                    val contactName = cursor1.getString(cursor1.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME))
+                    val contactId = cursor1.getString(cursor1.getColumnIndex(ContactsContract.Contacts._ID))
+                    var contactNumber = ""
+                    val idResults = cursor1.getString(cursor1.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER))
+                    val idResultsHold = idResults.toInt()
+                    val callerNameTF = mView.findViewById<EditText>(R.id.nameEditText)
+                    val callerMobileTF = mView.findViewById<EditText>(R.id.phoneNumEditText)
+                    callerNameTF.setText(contactName)
+
+                    if(idResultsHold == 1)
+                    {
+                        cursor2 = requireActivity().contentResolver.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                            null,
+                            ContactsContract.CommonDataKinds.Phone.CONTACT_ID +" = "+contactId,
+                            null,
+                            null
+                        )!!
+                        while(cursor2.moveToNext())
+                        {
+                            contactNumber = cursor2.getString(cursor2.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
+                        }
+                        cursor2.close()
+
+                        callerMobileTF.setText(contactNumber)
+                    }
+
+
+                    cursor1.close()
+                }
             }
         }
     }
