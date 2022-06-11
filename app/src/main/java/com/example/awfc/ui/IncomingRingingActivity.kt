@@ -58,7 +58,6 @@ class IncomingRingingActivity : AppCompatActivity(), ActivityCompat.OnRequestPer
         setContentView(binding.root)
 
         textureView = findViewById<View>(R.id.texture) as AutoFitTextureView
-
         artist = intent.getParcelableExtra("artist")
 
         binding.nameRinging.text = artist?.name

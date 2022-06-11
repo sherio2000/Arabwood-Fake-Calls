@@ -7,12 +7,18 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
+import android.widget.TextView
 import com.example.awfc.R
+import com.example.awfc.data.VoiceCaller
 import com.example.awfc.utils.OnSwipeTouchListener
+import com.example.awfc.utils.ScheduleVoiceCall
 
 class IncomingVoiceCallOppo : AppCompatActivity() {
     private var mp: MediaPlayer? = null
+    private var caller: VoiceCaller? = null
     override fun onCreate(savedInstanceState: Bundle?) {
+        ScheduleVoiceCall().showWhenLockedAndTurnScreenOn(this)
+        ScheduleVoiceCall().hideSystemBars(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_incoming_voice_call_oppo)
 
@@ -20,6 +26,13 @@ class IncomingVoiceCallOppo : AppCompatActivity() {
 
         mp = MediaPlayer.create(this, notification)
         mp?.start()
+
+        val callerNameTv = findViewById<TextView>(R.id.callerIdTv)
+        val callerNumTv = findViewById<TextView>(R.id.callerNumTv)
+
+        caller = intent.getParcelableExtra("caller")
+        caller?.let { ScheduleVoiceCall().placeCallerInfo(callerNameTv, callerNumTv, it) }
+
 
         val answerBtn = findViewById<ImageView>(R.id.answerBtnIV)
         answerBtn.startAnimation(AnimationUtils.loadAnimation(this, R.anim.shake_stronger))
@@ -43,7 +56,8 @@ class IncomingVoiceCallOppo : AppCompatActivity() {
             override fun onSwipeUp() {
                 mp?.stop()
                 this@IncomingVoiceCallOppo.finish()
-                val intent = Intent(this@IncomingVoiceCallOppo, IncomingVoiceCallOppo::class.java)
+                val intent = Intent(this@IncomingVoiceCallOppo, IncomingVoiceCallOppoHome::class.java)
+                intent.putExtra("caller", caller)
                 startActivity(intent)
                 super.onSwipeUp()
             }

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
 
     android:background="@drawable/ios_blur_background_dark"
-    tools:context=".ui.voiceDeviceUI.IncomingVoiceCall_Ios12_2_home">
+    tools:context=".ui.voiceDeviceUI.IncomingVoiceCallIos122Home">
 
     <TextView
         android:id="@+id/callerNameTv"

@@ -100,7 +100,6 @@ class SharedPreferences {
         val sharedPreferences = context.getSharedPreferences(this.PREF_NAME, Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
         editor.putString(Audio_Voice_Call_Pref_Name, uri)
-        editor.apply()
     }
 
     fun getAudioUri(activity: Activity) : Uri {

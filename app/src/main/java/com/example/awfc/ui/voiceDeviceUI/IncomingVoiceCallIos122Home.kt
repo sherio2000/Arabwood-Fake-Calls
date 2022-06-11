@@ -11,22 +11,22 @@ import com.example.awfc.data.VoiceCaller
 import com.example.awfc.utils.ScheduleVoiceCall
 import com.example.awfc.utils.SharedPreferences
 
-class IncomingVoiceCallIos12Home : AppCompatActivity() {
+class IncomingVoiceCallIos122Home : AppCompatActivity() {
     private var caller: VoiceCaller? = null
     private var mp: MediaPlayer? = MediaPlayer()
     override fun onCreate(savedInstanceState: Bundle?) {
         ScheduleVoiceCall().showWhenLockedAndTurnScreenOn(this)
         ScheduleVoiceCall().hideSystemBars(this)
+
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_incoming_voice_call_ios12_home)
+        setContentView(R.layout.activity_incoming_voice_call_ios122_home)
 
         val chronometer = findViewById<Chronometer>(R.id.chronometerIphone12_1)
         chronometer.start()
 
         val callerNameTv = findViewById<TextView>(R.id.callerNameTv)
 
-        ScheduleVoiceCall().createMediaPlayer(SharedPreferences().getAudioUri(this@IncomingVoiceCallIos12Home), mp, this)
-
+        ScheduleVoiceCall().createMediaPlayer(SharedPreferences().getAudioUri(this@IncomingVoiceCallIos122Home), mp, this)
 
         caller = intent.getParcelableExtra("caller")
         caller?.let { ScheduleVoiceCall().placeCallerInfo(callerNameTv, null, it) }

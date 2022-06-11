@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.media.MediaPlayer
 import android.media.RingtoneManager
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
@@ -12,23 +13,42 @@ import android.util.AttributeSet
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
+import android.view.WindowManager
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import com.example.awfc.R
+import com.example.awfc.data.VoiceCaller
 import com.example.awfc.utils.OnSwipeTouchListener
+import com.example.awfc.utils.ScheduleVoiceCall
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class IncomingVoiceCallAndroidNougat : AppCompatActivity() {
 
     private var handlerAnimation = Handler()
     private var mp: MediaPlayer? = null
-    private var statusAnimation = false
+    private var caller: VoiceCaller? = null
 
     @SuppressLint("ClickableViewAccessibility", "UseCompatLoadingForDrawables")
     override fun onCreate(savedInstanceState: Bundle?) {
+        ScheduleVoiceCall().showWhenLockedAndTurnScreenOn(this)
+        ScheduleVoiceCall().hideSystemBars(this)
+
+        window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_incoming_voice_call_android_nougat)
         val notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE)
+        val callerNameTv = findViewById<TextView>(R.id.callerIdTv)
+        val callerMobileTv = findViewById<TextView>(R.id.callerNumTv)
+
+        caller = intent.getParcelableExtra("caller")
+        caller?.let { ScheduleVoiceCall().placeCallerInfo(callerNameTv, callerMobileTv, it) }
+
+
 
         mp = MediaPlayer.create(this, notification)
         mp?.start()
@@ -84,6 +104,7 @@ class IncomingVoiceCallAndroidNougat : AppCompatActivity() {
                 stopPulse()
                 this@IncomingVoiceCallAndroidNougat.finish()
                 val intent = Intent(this@IncomingVoiceCallAndroidNougat, IncomingCallAndroidNougatHome::class.java)
+                intent.putExtra("caller", caller)
                 startActivity(intent)
                 super.onSwipeRight()
             }

@@ -4,7 +4,6 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity.RESULT_OK
 import android.app.AlertDialog
-import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.database.Cursor
@@ -14,22 +13,31 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.provider.Settings
 import android.text.Html
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
+import android.widget.Toast
 import android.widget.Toolbar
 import androidx.annotation.RequiresApi
-import androidx.annotation.VisibleForTesting
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.awfc.R
 import com.example.awfc.ui.voiceDeviceUI.IncomingVoiceCallAndroidNougat
+import com.example.awfc.utils.ScheduleVoiceCall
 import com.example.awfc.utils.SharedPreferences
 import com.google.android.material.button.MaterialButton
 import dagger.hilt.android.AndroidEntryPoint
+import android.app.NotificationManager
+import android.content.Context
+import android.content.DialogInterface
+import androidx.core.app.NotificationManagerCompat
+
+
+
+
 
 @AndroidEntryPoint
 class VoiceCallHomeFragment : Fragment() {
@@ -110,10 +118,61 @@ class VoiceCallHomeFragment : Fragment() {
                 builder.create()
                 builder.show()
             } else {
+                val manager =
+                    context!!.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-                val intent = Intent(this.context, IncomingVoiceCallAndroidNougat::class.java)
-                startActivity(intent)
+                val notification = this.context?.let { it1 -> NotificationManagerCompat.from(it1) }
+                val isEnabled = notification?.areNotificationsEnabled()
+                if (!isEnabled!!) {
+                    val builder = AlertDialog.Builder(this.context)
+                    val intent = Intent()
+                    builder.setTitle("Permission Request")
+                    builder.setMessage("Please allow Notification >> Background Service for this app")
+                    builder.setPositiveButton("OK", DialogInterface.OnClickListener{
+                            dialogInterface, i ->
+                        dialogInterface.cancel()
+                        when {
+                            Build.VERSION.SDK_INT >= Build.VERSION_CODES.O -> {
+                                intent.action = "android.settings.APP_NOTIFICATION_SETTINGS";
+                                intent.putExtra("android.provider.extra.APP_PACKAGE", this.context?.packageName);
+
+                            }
+                            Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP -> {  //5.0
+                                intent.action = "android.settings.APP_NOTIFICATION_SETTINGS";
+                                intent.putExtra("app_package", this.context?.packageName);
+                                intent.putExtra("app_uid", this.context?.applicationInfo?.uid);
+                                startActivity(intent);
+
+                            }
+                            Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT -> {  //4.4
+                                intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                                intent.addCategory(Intent.CATEGORY_DEFAULT);
+                                intent.setData(Uri.parse("package:" + this.context?.packageName));
+
+                            }
+                            Build.VERSION.SDK_INT >= 15 -> {
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                intent.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
+                                intent.setData(Uri.fromParts("package", this.context?.packageName, null));
+                            }
+                        }
+                        startActivity(intent)
+                    })
+                    builder.create()
+                    builder.show()
+
+                } else {
+
+                    scheduleCall()
+                    Toast.makeText(this.context, "Call set for " + this.context?.let { it1 ->
+                        SharedPreferences().getDurationVoiceCallPreferenceString(
+                            it1
+                        )
+                    }, Toast.LENGTH_SHORT).show()
+                }
+
             }
+
         }
         setTimeBtn.setOnClickListener {
 
@@ -153,6 +212,37 @@ class VoiceCallHomeFragment : Fragment() {
         return mView
     }
 
+    private fun scheduleCall()
+    {
+        val duration = this.context?.let { SharedPreferences().getDurationVoiceCallPreference(it) }
+        val callerNameTF = mView.findViewById<EditText>(R.id.nameEditText)
+        val callerMobileTF = mView.findViewById<EditText>(R.id.phoneNumEditText)
+        var callerName = callerNameTF.text.toString()
+        var callerMobile = callerMobileTF.text.toString()
+        val deviceId = this.context?.let { SharedPreferences().getDeviceVoiceCallPreference(it) }
+
+        if(callerName == "")
+        {
+            callerName = "Private Number"
+        }
+
+        if(callerMobile == "")
+        {
+            callerMobile = "00000000000"
+        }
+        val audioUri = this.context?.let { SharedPreferences().getAudioUri(it).toString() }
+        if (duration != null) {
+            if (deviceId != null) {
+                this.context?.let {
+                    if (audioUri != null) {
+                        ScheduleVoiceCall().scheduleCall(duration, callerName, callerMobile, deviceId,
+                            it, audioUri)
+                    }
+                }
+            }
+        }
+    }
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -169,29 +259,19 @@ class VoiceCallHomeFragment : Fragment() {
         }
     }
 
-    fun setAudioBtnText(button1: Button)
+    private fun setAudioBtnText(button1: Button)
     {
-        if(getNameFromUri(this.context?.let { SharedPreferences().getAudioUri(it) }) != null)
-        {
-            val name = getNameFromUri(this.context?.let { SharedPreferences().getAudioUri(it) })
-            button1.text = Html.fromHtml("<big>" + "<font size=10' face='arial' color='#ffffff'>" + "Set Audio" + "</font>" + "</big>" +  "<br />" +
-                    "<small>" +
-                    "<font size=6' face='arial' color='#d9d9d9'>" +
-                    name +
-                    "</font>"
-                    + "</small>" + "<br />");
-        } else {
-            button1.text = Html.fromHtml("<big>" + "<font size=10' face='arial' color='#ffffff'>" + "Set Audio" + "</font>" + "</big>" +  "<br />" +
-                    "<small>" +
-                    "<font size=6' face='arial' color='#d9d9d9'>" +
-                    "None" +
-                    "</font>"
-                    + "</small>" + "<br />");
-        }
+        val name = getNameFromUri(this.context?.let { SharedPreferences().getAudioUri(it) })
+        button1.text = Html.fromHtml("<big>" + "<font size=10' face='arial' color='#ffffff'>" + "Set Audio" + "</font>" + "</big>" +  "<br />" +
+                "<small>" +
+                "<font size=6' face='arial' color='#d9d9d9'>" +
+                name +
+                "</font>"
+                + "</small>" + "<br />");
     }
 
     @SuppressLint("Range")
-    fun getNameFromUri(uri: Uri?): String? {
+    fun getNameFromUri(uri: Uri?): String {
         var fileName = ""
         var cursor: Cursor? = null
         cursor = uri?.let {
@@ -205,9 +285,7 @@ class VoiceCallHomeFragment : Fragment() {
             fileName =
                 cursor.getString(cursor.getColumnIndex(MediaStore.Images.ImageColumns.DISPLAY_NAME))
         }
-        if (cursor != null) {
-            cursor.close()
-        }
+        cursor?.close()
         return fileName
     }
 

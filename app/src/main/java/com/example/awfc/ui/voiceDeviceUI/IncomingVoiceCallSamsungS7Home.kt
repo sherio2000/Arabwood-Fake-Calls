@@ -12,7 +12,10 @@ import android.view.Window
 import android.view.WindowManager
 import android.widget.Chronometer
 import android.widget.ImageView
+import android.widget.TextView
 import com.example.awfc.R
+import com.example.awfc.data.VoiceCaller
+import com.example.awfc.utils.ScheduleVoiceCall
 import com.example.awfc.utils.SharedPreferences
 import com.example.awfc.utils.TAG
 
@@ -20,15 +23,25 @@ class IncomingVoiceCallSamsungS7Home : AppCompatActivity() {
 
     private lateinit var chronometer: Chronometer
     private var mp: MediaPlayer? = MediaPlayer()
+    private var caller: VoiceCaller? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        ScheduleVoiceCall().showWhenLockedAndTurnScreenOn(this)
+        ScheduleVoiceCall().hideSystemBars(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_incoming_voice_call_samsung_s7_home)
+
+        val callerNameTv = findViewById<TextView>(R.id.callerIdTv)
+        val callerMobileTv = findViewById<TextView>(R.id.callerNumTv)
+
+        caller = intent.getParcelableExtra("caller")
+        caller?.let { ScheduleVoiceCall().placeCallerInfo(callerNameTv, callerMobileTv, it) }
+
 
         chronometer = findViewById(R.id.chronometerSamsungS7)
         chronometer.start()
 
-        createMediaPlayer(SharedPreferences().getAudioUri(this@IncomingVoiceCallSamsungS7Home))
+        ScheduleVoiceCall().createMediaPlayer(SharedPreferences().getAudioUri(this@IncomingVoiceCallSamsungS7Home), mp, this)
 
         val endCallBtn = findViewById<ImageView>(R.id.endCallBtnIV)
         endCallBtn.setOnClickListener {
@@ -51,22 +64,5 @@ class IncomingVoiceCallSamsungS7Home : AppCompatActivity() {
         super.onBackPressed()
     }
 
-    private fun createMediaPlayer(uri: Uri)
-    {
-        mp?.setAudioAttributes(
-            AudioAttributes.Builder()
-                .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-                .setUsage(AudioAttributes.USAGE_MEDIA)
-                .setLegacyStreamType(AudioManager.STREAM_VOICE_CALL)
-                .build()
-        )
-        try {
-            mp?.setDataSource(applicationContext, uri)
-            mp?.prepare()
-            mp?.start()
-        } catch (e: Exception)
-        {
-            Log.d(TAG, "Error Playing Audio File")
-        }
-    }
+
 }

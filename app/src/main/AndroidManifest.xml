@@ -33,7 +33,7 @@
             android:name=".ui.voiceDeviceUI.IncomingVoiceCallSamsungA10Home"
             android:exported="false" />
         <activity
-            android:name=".ui.voiceDeviceUI.IncomingVoiceCall_Ios12_2_home"
+            android:name=".ui.voiceDeviceUI.IncomingVoiceCallIos122Home"
             android:exported="false" />
         <activity
             android:name=".ui.voiceDeviceUI.IncomingVoiceCallOppoHome"
@@ -64,6 +64,8 @@
             android:exported="false" />
         <activity
             android:name=".ui.voiceDeviceUI.IncomingVoiceCallAndroidNougat"
+            android:launchMode="singleTop"
+            android:showOnLockScreen="true"
             android:exported="false" />
         <activity
             android:name=".ui.voiceDeviceUI.IncomingVoiceCallSamsungS7"
@@ -74,6 +76,14 @@
             android:enabled="true"
             android:exported="true"
             android:permission="android.permission.BIND_JOB_SERVICE" />
+
+        <service
+            android:name=".utils.InitiateVoiceCallService"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+
+        <receiver android:name=".utils.AlarmReceiver" />
 
         <activity
             android:name=".ui.CameraActivity"

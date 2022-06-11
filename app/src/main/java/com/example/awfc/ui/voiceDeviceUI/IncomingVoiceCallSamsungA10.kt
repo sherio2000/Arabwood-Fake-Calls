@@ -11,14 +11,27 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
+import android.widget.TextView
 import com.example.awfc.R
+import com.example.awfc.data.VoiceCaller
 import com.example.awfc.utils.OnSwipeTouchListener
+import com.example.awfc.utils.ScheduleVoiceCall
 
 class IncomingVoiceCallSamsungA10 : AppCompatActivity() {
     private var mp: MediaPlayer? = null
+    private var caller: VoiceCaller? = null
     override fun onCreate(savedInstanceState: Bundle?) {
+        ScheduleVoiceCall().showWhenLockedAndTurnScreenOn(this)
+        ScheduleVoiceCall().hideSystemBars(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_incoming_voice_call_samsung_a10)
+
+        val callerNameTv = findViewById<TextView>(R.id.callerIdTv)
+        val callerMobileTv = findViewById<TextView>(R.id.callerNumTv)
+
+        caller = intent.getParcelableExtra("caller")
+        caller?.let { ScheduleVoiceCall().placeCallerInfo(callerNameTv, callerMobileTv, it) }
+
 
         val notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE)
 
@@ -49,6 +62,7 @@ class IncomingVoiceCallSamsungA10 : AppCompatActivity() {
                 mp?.stop()
                 this@IncomingVoiceCallSamsungA10.finish()
                 val intent = Intent(this@IncomingVoiceCallSamsungA10, IncomingVoiceCallSamsungA10Home::class.java)
+                intent.putExtra("caller", caller)
                 startActivity(intent)
                 super.onSwipeUp()
             }
