@@ -26,7 +26,6 @@ import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.awfc.R
-import com.example.awfc.ui.voiceDeviceUI.IncomingVoiceCallAndroidNougat
 import com.example.awfc.utils.ScheduleVoiceCall
 import com.example.awfc.utils.SharedPreferences
 import com.google.android.material.button.MaterialButton
@@ -37,12 +36,12 @@ import android.content.DialogInterface
 import android.provider.ContactsContract
 import android.util.Log
 import androidx.core.app.NotificationManagerCompat
+import com.example.awfc.data.VoiceCaller
 import com.example.awfc.utils.TAG
 
 
 @AndroidEntryPoint
-class VoiceCallHomeFragment : Fragment() {
-
+class VoiceCallHomeFragment(callerName: String?, callerNum: String?) : Fragment() {
 
     private lateinit var mView: View
     private val sharedPreferences = SharedPreferences()

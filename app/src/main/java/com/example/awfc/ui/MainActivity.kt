@@ -70,6 +70,7 @@ class MainActivity : AppCompatActivity(), ArtistsAdapter.OnArtistListener {
                 {
 
                     val toolbar = findViewById<Toolbar>(R.id.mainToolbar)
+                    toolbar.menu.clear()
                     toolbar.inflateMenu(R.menu.search_menu)
                     val search = toolbar.menu.findItem(R.id.menu_search)
                     val searchView = search?.actionView as? SearchView
@@ -79,6 +80,10 @@ class MainActivity : AppCompatActivity(), ArtistsAdapter.OnArtistListener {
                 } else {
                     val toolbar = findViewById<Toolbar>(R.id.mainToolbar)
                     toolbar.menu.clear()
+                    toolbar.inflateMenu(R.menu.history_menu)
+                    val history = toolbar.menu.findItem(R.id.menu_history)
+                    val historyBtn = history?.actionView as? SearchView
+                    historyBtn?.isSubmitButtonEnabled = true
                 }
             }
 

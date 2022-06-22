@@ -20,7 +20,7 @@ class ViewPagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle) :
             }
             1->
             {
-                VoiceCallHomeFragment()
+                VoiceCallHomeFragment(null, null)
             }
             else -> {
                 Fragment()
