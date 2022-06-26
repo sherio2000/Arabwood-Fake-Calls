@@ -36,13 +36,23 @@ import android.content.DialogInterface
 import android.provider.ContactsContract
 import android.util.Log
 import androidx.core.app.NotificationManagerCompat
-import com.example.awfc.data.VoiceCaller
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import com.example.awfc.data.VoiceCallerHistory
 import com.example.awfc.utils.TAG
+import com.example.awfc.viewmodels.MainViewModel
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.launch
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 
 
 @AndroidEntryPoint
-class VoiceCallHomeFragment(callerName: String?, callerNum: String?) : Fragment() {
+class VoiceCallHomeFragment() : Fragment() {
 
+    private lateinit var mainViewModel: MainViewModel
     private lateinit var mView: View
     private val sharedPreferences = SharedPreferences()
     private val PICK_FILE = 1
@@ -50,7 +60,6 @@ class VoiceCallHomeFragment(callerName: String?, callerNum: String?) : Fragment(
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
@@ -70,7 +79,25 @@ class VoiceCallHomeFragment(callerName: String?, callerNum: String?) : Fragment(
         val addContactBtn = mView.findViewById<MaterialButton>(R.id.addContactBtn)
 
         getDevicePreference(setDeviceBtn)
+        refreshHomePage(setTimeBtn)
 
+        val callerNameTF = mView.findViewById<EditText>(R.id.nameEditText)
+        val callerMobileTF = mView.findViewById<EditText>(R.id.phoneNumEditText)
+        val currentCallerName = SharedPreferences().getCallerName(requireActivity()).toString()
+        val currentCallerNumber = SharedPreferences().getCallerNumber(requireActivity()).toString()
+        if(currentCallerName != "")
+        {
+            callerNameTF.setText(currentCallerName)
+        }
+        if(currentCallerNumber != "")
+        {
+            callerMobileTF.setText(currentCallerNumber)
+        }
+
+        context?.let { SharedPreferences().flushCallerInfo(it) }
+
+
+        mainViewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
 
         refreshHomePage(setTimeBtn)
 
@@ -176,7 +203,9 @@ class VoiceCallHomeFragment(callerName: String?, callerNum: String?) : Fragment(
 
                 } else {
 
-                    scheduleCall()
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        scheduleCall()
+                    }
                     Toast.makeText(this.context, "Call set for " + this.context?.let { it1 ->
                         SharedPreferences().getDurationVoiceCallPreferenceString(
                             it1
@@ -225,6 +254,8 @@ class VoiceCallHomeFragment(callerName: String?, callerNum: String?) : Fragment(
         return mView
     }
 
+    @DelicateCoroutinesApi
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun scheduleCall()
     {
         val duration = this.context?.let { SharedPreferences().getDurationVoiceCallPreference(it) }
@@ -243,19 +274,44 @@ class VoiceCallHomeFragment(callerName: String?, callerNum: String?) : Fragment(
         {
             callerMobile = "00000000000"
         }
+        val current = LocalDateTime.now()
+
+        val formatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
+        val formatted = current.format(formatter)
         val audioUri = this.context?.let { SharedPreferences().getAudioUri(it).toString() }
-        if (duration != null) {
-            if (deviceId != null) {
-                this.context?.let {
-                    if (audioUri != null) {
-                        ScheduleVoiceCall().scheduleCall(duration, callerName, callerMobile, deviceId,
-                            it, audioUri)
-                    }
-                }
-            }
+        val voiceCallRecord = VoiceCallerHistory(
+            0,
+            callerName,
+            callerMobile,
+            duration!!,
+            deviceId!!,
+            audioUri!!,
+            formatted
+        )
+        this.context?.let {
+            saveCallRecordDb(voiceCallRecord)
+            ScheduleVoiceCall().scheduleCall(duration, callerName, callerMobile, deviceId,
+                it, audioUri, requireActivity())
         }
     }
 
+    private fun saveCallRecordDb(voiceCallerHistory: VoiceCallerHistory)
+    {
+        val voiceCallRecord = VoiceCallerHistory(
+            voiceCallerHistory.id,
+            voiceCallerHistory.callerName,
+            voiceCallerHistory.callerNumber,
+            voiceCallerHistory.duration,
+            voiceCallerHistory.device,
+            voiceCallerHistory.voicePlayback,
+            voiceCallerHistory.dateTime
+        )
+        mainViewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
+        lifecycleScope.launch {
+            mainViewModel.saveVoiceCallRecord(voiceCallRecord)
+        }
+
+    }
 
     private fun checkContactPermission() : Boolean
     {

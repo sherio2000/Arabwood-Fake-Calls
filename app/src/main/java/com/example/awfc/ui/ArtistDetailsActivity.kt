@@ -88,8 +88,10 @@ class ArtistDetailsActivity : AppCompatActivity() {
 
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
-        toolbar.setTitle("Details")
+        toolbar.title = "Details"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+
 
         val image = findViewById<ImageView>(R.id.artistDetailsIV)
         val artistTitle = findViewById<TextView>(R.id.artistDetailsNameTV)
@@ -190,6 +192,16 @@ class ArtistDetailsActivity : AppCompatActivity() {
 
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                onBackPressed()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
     private fun showNoInternetConnection() {
         val errorImageView = findViewById<ImageView>(R.id.errorIV)
         val errorTextView = findViewById<TextView>(R.id.errorTextView)
@@ -265,15 +277,5 @@ class ArtistDetailsActivity : AppCompatActivity() {
         } else {
             Toast.makeText(this@ArtistDetailsActivity, "Permission already granted", Toast.LENGTH_SHORT).show()
         }
-    }
-
-
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if(item.itemId == android.R.id.home)
-        {
-            finish()
-        }
-        return super.onOptionsItemSelected(item)
     }
 }

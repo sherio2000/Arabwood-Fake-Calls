@@ -1,4 +1,4 @@
-package com.example.awfc.Dao
+package com.example.awfc.dao
 
 import androidx.room.Dao
 import androidx.room.Query

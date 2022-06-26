@@ -28,4 +28,8 @@ object DatabaseModule {
     @Singleton
     @Provides
     fun provideDao(database: ArtistDatabase) = database.ArtistDao()
+
+    @Singleton
+    @Provides
+    fun provideHistoryDao(database: ArtistDatabase) = database.VoiceCallerHistoryDao()
 }

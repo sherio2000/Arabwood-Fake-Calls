@@ -9,19 +9,27 @@ import androidx.annotation.RequiresApi
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import com.example.awfc.Dao.ArtistDao
+import androidx.lifecycle.viewModelScope
+import com.example.awfc.dao.ArtistDao
+import com.example.awfc.dao.VoiceCallerHistoryDao
 import com.example.awfc.data.Artist
-import com.example.awfc.utils.ConnectionLiveData
+import com.example.awfc.data.VoiceCallerHistory
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.launch
 
 
 class MainViewModel @ViewModelInject constructor(
     private val artistDao: ArtistDao,
+    private val voiceCallerHistoryDao: VoiceCallerHistoryDao,
     application: Application
 ): AndroidViewModel(application) {
     var artistsResponse: MutableLiveData<List<Artist>> = MutableLiveData()
+    var voiceCallerHistoryResponse: MutableLiveData<List<VoiceCallerHistory>> = MutableLiveData()
 
     fun getArtists(): Flow<List<Artist>> = artistDao.readAll()
+    fun saveVoiceCallRecord(voiceCallerHistory: VoiceCallerHistory) = viewModelScope.launch(Dispatchers.IO) {  voiceCallerHistoryDao.addVoiceCallRecord(voiceCallerHistory) }
+    fun getVoiceCallHistory(): Flow<List<VoiceCallerHistory>> = voiceCallerHistoryDao.readAll()
     fun searchArtist(searchQuery: String): Flow<List<Artist>> {
         return artistDao.searchArtists(searchQuery)
     }

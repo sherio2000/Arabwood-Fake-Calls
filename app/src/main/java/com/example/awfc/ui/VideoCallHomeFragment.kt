@@ -96,7 +96,7 @@ class VideoCallHomeFragment : Fragment() , ArtistsAdapter.OnArtistListener {
         textView.visibility = View.VISIBLE
     }
 
-    fun showInternetConnection() {
+    private fun showInternetConnection() {
         val recyclerView = mView.findViewById<RecyclerView>(R.id.recycler_view)
         val imageView  = mView.findViewById<ImageView>(R.id.errorIV)
         val textView = mView.findViewById<TextView>(R.id.errorTextView)

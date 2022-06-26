@@ -10,6 +10,8 @@ class SharedPreferences {
     private val Audio_Voice_Call_Pref_Name = "audioUri"
     private val Device_Voice_Call_Pref_Name = "device"
     private val Duration_Voice_Call_Pref_Name = "duration"
+    private val Caller_Name_Voice_Call_Pref_Name = "callerName"
+    private val Caller_Number_Voice_Call_Pref_Name = "callerNumber"
 
     fun setDefaultVoiceCallPreferences(activity: Activity)
     {
@@ -104,14 +106,44 @@ class SharedPreferences {
 
     fun getAudioUri(activity: Activity) : Uri {
         val sharedPreferences = activity.getSharedPreferences(this.PREF_NAME ,Context.MODE_PRIVATE)
-        val uriString = sharedPreferences.getString(Audio_Voice_Call_Pref_Name, null)
+        val uriString = sharedPreferences.getString(Audio_Voice_Call_Pref_Name, "")
         return Uri.parse(uriString)
     }
 
     fun getAudioUri(context: Context) : Uri {
         val sharedPreferences = context.getSharedPreferences(this.PREF_NAME ,Context.MODE_PRIVATE)
-        val uriString = sharedPreferences.getString(Audio_Voice_Call_Pref_Name, null)
+        val uriString = sharedPreferences.getString(Audio_Voice_Call_Pref_Name, "")
         return Uri.parse(uriString)
     }
 
+    fun setCallerName(context: Context, callerName: String) {
+        val sharedPreferences = context.getSharedPreferences(this.PREF_NAME, Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putString(Caller_Name_Voice_Call_Pref_Name, callerName)
+        editor.apply()
+    }
+    fun setCallerNumber(context: Context, callerNumber: String) {
+        val sharedPreferences = context.getSharedPreferences(this.PREF_NAME, Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putString(Caller_Number_Voice_Call_Pref_Name, callerNumber)
+        editor.apply()
+    }
+    fun getCallerName(activity: Activity) : String?
+    {
+        val sharedPreferences = activity.getSharedPreferences(this.PREF_NAME ,Context.MODE_PRIVATE)
+        return sharedPreferences.getString(Caller_Name_Voice_Call_Pref_Name, "")
+    }
+    fun getCallerNumber(activity: Activity) : String?
+    {
+        val sharedPreferences = activity.getSharedPreferences(this.PREF_NAME ,Context.MODE_PRIVATE)
+        return sharedPreferences.getString(Caller_Number_Voice_Call_Pref_Name, "")
+    }
+    fun flushCallerInfo(context: Context)
+    {
+        val sharedPreferences = context.getSharedPreferences(this.PREF_NAME, Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.remove(Caller_Name_Voice_Call_Pref_Name)
+        editor.remove(Caller_Number_Voice_Call_Pref_Name)
+        editor.apply()
+    }
 }

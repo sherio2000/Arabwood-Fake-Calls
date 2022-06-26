@@ -4,10 +4,15 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.example.awfc.ui.Hilt_VoiceCallHistory
 import com.example.awfc.ui.VideoCallHomeFragment
+import com.example.awfc.ui.VoiceCallHistory
 import com.example.awfc.ui.VoiceCallHomeFragment
 
-class ViewPagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle) : FragmentStateAdapter(fragmentManager, lifecycle) {
+class ViewPagerAdapter(
+        fragmentManager: FragmentManager
+        , lifecycle: Lifecycle)
+    : FragmentStateAdapter(fragmentManager, lifecycle) {
     override fun getItemCount(): Int {
         return 2
     }
@@ -20,7 +25,7 @@ class ViewPagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle) :
             }
             1->
             {
-                VoiceCallHomeFragment(null, null)
+                VoiceCallHomeFragment()
             }
             else -> {
                 Fragment()

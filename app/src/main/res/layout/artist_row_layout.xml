@@ -58,7 +58,6 @@
                     android:ellipsize="end"
                     android:fontFamily="@font/amethysta"
                     android:maxLines="2"
-                    setName="@{result.name"
                     android:text="@{result.name}"
                     android:textColor="@color/darker"
                     android:textSize="20sp"

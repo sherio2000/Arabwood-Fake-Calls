@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "5a73c0f4d87ead62acbbff8ec11e1a47",
+    "identityHash": "5286dd4bed3fcdf834525dc7adc402b8",
     "entities": [
       {
         "tableName": "artist",
@@ -71,12 +71,68 @@
         },
         "indices": [],
         "foreignKeys": []
+      },
+      {
+        "tableName": "voice_call_history",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `callerName` TEXT NOT NULL, `callerNumber` TEXT NOT NULL, `duration` INTEGER NOT NULL, `device` INTEGER NOT NULL, `voicePlayback` TEXT NOT NULL, `dateTime` TEXT NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "callerName",
+            "columnName": "callerName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "callerNumber",
+            "columnName": "callerNumber",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "duration",
+            "columnName": "duration",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "device",
+            "columnName": "device",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "voicePlayback",
+            "columnName": "voicePlayback",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dateTime",
+            "columnName": "dateTime",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '5a73c0f4d87ead62acbbff8ec11e1a47')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '5286dd4bed3fcdf834525dc7adc402b8')"
     ]
   }
 }

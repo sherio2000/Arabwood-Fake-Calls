@@ -18,18 +18,30 @@ import android.util.Log
 import android.view.WindowManager
 import android.widget.EditText
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelStoreOwner
+import androidx.lifecycle.coroutineScope
 import com.example.awfc.data.VoiceCaller
+import com.example.awfc.data.VoiceCallerHistory
 import com.example.awfc.ui.voiceDeviceUI.*
+import com.example.awfc.viewmodels.MainViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 
 class ScheduleVoiceCall {
 
+    @RequiresApi(Build.VERSION_CODES.O)
     @DelicateCoroutinesApi
-    fun scheduleCall(duration: Int, callerName: String, callerMobile: String?, deviceId: Int, context: Context, audioUri: String)
+    fun scheduleCall(duration: Int, callerName: String, callerMobile: String?, deviceId: Int, context: Context, audioUri: String, viewModelStoreOwner: ViewModelStoreOwner)
     {
         val jobScheduler = context.getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
         val bundle = PersistableBundle()
@@ -37,6 +49,10 @@ class ScheduleVoiceCall {
         bundle.putString("callerName", callerName)
         bundle.putString("audioUri", audioUri)
         bundle.putString("callerMobile", callerMobile)
+        val current = LocalDateTime.now()
+
+        val formatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
+        val formatted = current.format(formatter)
 
         val jobInfo = JobInfo.Builder(12, ComponentName(context , InitiateVoiceCallService::class.java))
             // only add if network access is required
@@ -45,6 +61,20 @@ class ScheduleVoiceCall {
             .setMinimumLatency(duration.toLong())
             .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY).build()
         jobScheduler.schedule(jobInfo)
+    }
+    private fun saveCallRecordDb(voiceCallerHistory: VoiceCallerHistory, owner: ViewModelStoreOwner)
+    {
+        val voiceCallRecord = VoiceCallerHistory(
+            voiceCallerHistory.id,
+            voiceCallerHistory.callerName,
+            voiceCallerHistory.callerNumber,
+            voiceCallerHistory.duration,
+            voiceCallerHistory.device,
+            voiceCallerHistory.voicePlayback,
+            voiceCallerHistory.dateTime
+        )
+        var viewModel = ViewModelProvider(owner).get(MainViewModel::class.java)
+        viewModel.saveVoiceCallRecord(voiceCallRecord)
     }
 
 

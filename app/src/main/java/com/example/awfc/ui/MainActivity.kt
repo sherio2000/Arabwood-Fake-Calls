@@ -3,9 +3,11 @@ package com.example.awfc.ui
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.ContentValues.TAG
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
@@ -50,6 +52,14 @@ class MainActivity : AppCompatActivity(), ArtistsAdapter.OnArtistListener {
         val tabLayout = findViewById<TabLayout>(R.id.tab_layout)
         viewPager2 =  findViewById(R.id.view_pager_2)
 
+
+        var position = 0
+        val extras = intent.extras
+        if (extras != null) {
+            position = extras.getInt("viewpager_position")
+        }
+
+
         val adapter  = ViewPagerAdapter(supportFragmentManager, lifecycle)
         viewPager2.adapter = adapter
         TabLayoutMediator(tabLayout, viewPager2){tab, postion ->
@@ -62,6 +72,15 @@ class MainActivity : AppCompatActivity(), ArtistsAdapter.OnArtistListener {
                 }
             }
         }.attach()
+
+        val toolbar = findViewById<Toolbar>(R.id.mainToolbar)
+        val history = toolbar.menu.findItem(R.id.menu_history)
+        toolbar.setOnMenuItemClickListener {
+            when(it.itemId) {
+                R.id.menu_history -> openHistoryScreen()
+            }
+            true
+        }
 
         viewPager2.registerOnPageChangeCallback(object: ViewPager2.OnPageChangeCallback(), SearchView.OnQueryTextListener {
             @SuppressLint("ResourceType")
@@ -81,9 +100,6 @@ class MainActivity : AppCompatActivity(), ArtistsAdapter.OnArtistListener {
                     val toolbar = findViewById<Toolbar>(R.id.mainToolbar)
                     toolbar.menu.clear()
                     toolbar.inflateMenu(R.menu.history_menu)
-                    val history = toolbar.menu.findItem(R.id.menu_history)
-                    val historyBtn = history?.actionView as? SearchView
-                    historyBtn?.isSubmitButtonEnabled = true
                 }
             }
 
@@ -102,11 +118,10 @@ class MainActivity : AppCompatActivity(), ArtistsAdapter.OnArtistListener {
                 }
                 return true
             }
+
         })
-
+        viewPager2.currentItem = position
         requestPermissions()
-
-        val toolbar = findViewById<Toolbar>(R.id.mainToolbar)
         toolbar.setBackgroundColor(Color.rgb(32, 4, 209))
         toolbar.setTitleTextColor(Color.WHITE)
         toolbar.setTitle(R.string.app_name)
@@ -136,6 +151,11 @@ class MainActivity : AppCompatActivity(), ArtistsAdapter.OnArtistListener {
                 Log.i(TAG, "search Artists initiated")
             }
         }
+    }
+
+    private fun openHistoryScreen() {
+        val intent = Intent(this, VoiceCallHistory::class.java)
+        startActivity(intent)
     }
 
 
