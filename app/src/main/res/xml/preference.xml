@@ -14,6 +14,7 @@
             android:title="@string/vibrate_switch_pref_name" />
 
         <Preference
+            android:key="@string/clear_voice_history_pref_name"
             android:title="@string/clear_voice_history_pref_name"/>
 
         <Preference

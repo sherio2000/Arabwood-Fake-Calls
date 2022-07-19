@@ -20,7 +20,7 @@ class DeviceVoiceCallActivity : AppCompatActivity() {
 
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
-        toolbar.setTitle("Details")
+        supportActionBar?.title = "Select Device"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val previewBtn = findViewById<Button>(R.id.previewBtn)

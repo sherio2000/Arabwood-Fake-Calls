@@ -14,6 +14,8 @@ import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Build
 import android.os.PersistableBundle
+import android.os.VibrationEffect
+import android.os.Vibrator
 import android.util.Log
 import android.view.WindowManager
 import android.widget.EditText
@@ -61,20 +63,6 @@ class ScheduleVoiceCall {
             .setMinimumLatency(duration.toLong())
             .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY).build()
         jobScheduler.schedule(jobInfo)
-    }
-    private fun saveCallRecordDb(voiceCallerHistory: VoiceCallerHistory, owner: ViewModelStoreOwner)
-    {
-        val voiceCallRecord = VoiceCallerHistory(
-            voiceCallerHistory.id,
-            voiceCallerHistory.callerName,
-            voiceCallerHistory.callerNumber,
-            voiceCallerHistory.duration,
-            voiceCallerHistory.device,
-            voiceCallerHistory.voicePlayback,
-            voiceCallerHistory.dateTime
-        )
-        var viewModel = ViewModelProvider(owner).get(MainViewModel::class.java)
-        viewModel.saveVoiceCallRecord(voiceCallRecord)
     }
 
 
@@ -153,5 +141,19 @@ class ScheduleVoiceCall {
             Log.d(TAG, "Error Playing Audio File")
         }
 
+    }
+
+    fun vibratePhone(context: Context) {
+        val vibrator = context?.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+        if (Build.VERSION.SDK_INT >= 26) {
+            vibrator.vibrate(VibrationEffect.createOneShot(5000, VibrationEffect.DEFAULT_AMPLITUDE))
+        } else {
+            vibrator.vibrate(5000)
+        }
+    }
+
+    fun stopVibration(context: Context) {
+        val vibrator = context?.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+        vibrator.cancel()
     }
 }

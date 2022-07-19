@@ -8,6 +8,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.preference.PreferenceManager
 import com.example.awfc.R
 import com.example.awfc.data.VoiceCaller
 import com.example.awfc.utils.ScheduleVoiceCall
@@ -30,15 +31,21 @@ class IncomingVoiceCallIos12 : AppCompatActivity() {
 
         val callerNameTv = findViewById<TextView>(R.id.callerNameTv)
 
+        val prefs = PreferenceManager.getDefaultSharedPreferences(this)
+        val vibrationSwitch = prefs.getBoolean("Vibrate", true)
+
         caller = intent.getParcelableExtra("caller")
         caller?.let { ScheduleVoiceCall().placeCallerInfo(callerNameTv, null, it) }
 
         notification?.play()
+        if(vibrationSwitch)
+            ScheduleVoiceCall().vibratePhone(this)
 
         acceptSlider.animDuration = 1
         acceptSlider.onSlideCompleteListener = object : SlideToActView.OnSlideCompleteListener {
             override fun onSlideComplete(view: SlideToActView) {
                 notification?.stop()
+                ScheduleVoiceCall().stopVibration(this@IncomingVoiceCallIos12)
                 this@IncomingVoiceCallIos12.finish()
                 val intent = Intent(this@IncomingVoiceCallIos12, IncomingVoiceCallIos12Home::class.java)
                 intent.putExtra("caller", caller)
@@ -50,6 +57,7 @@ class IncomingVoiceCallIos12 : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
+        ScheduleVoiceCall().stopVibration(this@IncomingVoiceCallIos12)
         notification?.stop()
     }
 }

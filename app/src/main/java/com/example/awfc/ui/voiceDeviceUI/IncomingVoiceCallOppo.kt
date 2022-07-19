@@ -47,6 +47,7 @@ class IncomingVoiceCallOppo : AppCompatActivity() {
         declineBtn.setOnTouchListener(object : OnSwipeTouchListener(this@IncomingVoiceCallOppo) {
             override fun onSwipeUp() {
                 notification?.stop()
+                ScheduleVoiceCall().stopVibration(this@IncomingVoiceCallOppo)
                 this@IncomingVoiceCallOppo.finish()
                 super.onSwipeUp()
             }
@@ -56,6 +57,7 @@ class IncomingVoiceCallOppo : AppCompatActivity() {
         answerBtn.setOnTouchListener(object : OnSwipeTouchListener(this@IncomingVoiceCallOppo) {
             override fun onSwipeUp() {
                 notification?.stop()
+                ScheduleVoiceCall().stopVibration(this@IncomingVoiceCallOppo)
                 this@IncomingVoiceCallOppo.finish()
                 val intent = Intent(this@IncomingVoiceCallOppo, IncomingVoiceCallOppoHome::class.java)
                 intent.putExtra("caller", caller)
@@ -68,6 +70,7 @@ class IncomingVoiceCallOppo : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
+        ScheduleVoiceCall().stopVibration(this)
         notification?.stop()
     }
 }

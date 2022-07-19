@@ -22,6 +22,7 @@ import android.widget.Toast
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import androidx.preference.PreferenceManager
 import com.example.awfc.R
 import com.example.awfc.data.VoiceCaller
 import com.example.awfc.utils.OnSwipeTouchListener
@@ -47,12 +48,16 @@ class IncomingVoiceCallAndroidNougat : AppCompatActivity() {
         notification = RingtoneManager.getRingtone(this@IncomingVoiceCallAndroidNougat, SharedPreferences().getRingtoneUri(this))
         val callerNameTv = findViewById<TextView>(R.id.callerIdTv)
         val callerMobileTv = findViewById<TextView>(R.id.callerNumTv)
+        val prefs = PreferenceManager.getDefaultSharedPreferences(this)
+        val vibrationSwitch = prefs.getBoolean("Vibrate", true)
 
         caller = intent.getParcelableExtra("caller")
         caller?.let { ScheduleVoiceCall().placeCallerInfo(callerNameTv, callerMobileTv, it) }
 
 
         notification?.play()
+        if(vibrationSwitch)
+            ScheduleVoiceCall().vibratePhone(this)
 
         startPulse()
 
@@ -88,13 +93,12 @@ class IncomingVoiceCallAndroidNougat : AppCompatActivity() {
                     answerIcon.visibility = View.VISIBLE
                     declineIcon.visibility = View.VISIBLE
                 }
-
-
                 return super.onTouch(view, motionEvent)
             }
 
             override fun onSwipeLeft() {
                 notification?.stop()
+                ScheduleVoiceCall().stopVibration(this@IncomingVoiceCallAndroidNougat)
                 stopPulse()
                 this@IncomingVoiceCallAndroidNougat.finish()
                 super.onSwipeLeft()
@@ -102,6 +106,7 @@ class IncomingVoiceCallAndroidNougat : AppCompatActivity() {
 
             override fun onSwipeRight() {
                 notification?.stop()
+                ScheduleVoiceCall().stopVibration(this@IncomingVoiceCallAndroidNougat)
                 stopPulse()
                 this@IncomingVoiceCallAndroidNougat.finish()
                 val intent = Intent(this@IncomingVoiceCallAndroidNougat, IncomingCallAndroidNougatHome::class.java)
@@ -110,18 +115,6 @@ class IncomingVoiceCallAndroidNougat : AppCompatActivity() {
                 super.onSwipeRight()
             }
         })
-    }
-
-    override fun onCreateView(
-        parent: View?,
-        name: String,
-        context: Context,
-        attrs: AttributeSet
-    ): View? {
-        //runnable.run()
-        return super.onCreateView(parent, name, context, attrs)
-
-
     }
 
     private fun startPulse() {
@@ -159,6 +152,7 @@ class IncomingVoiceCallAndroidNougat : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
+        ScheduleVoiceCall().stopVibration(this)
         notification?.stop()
     }
 }

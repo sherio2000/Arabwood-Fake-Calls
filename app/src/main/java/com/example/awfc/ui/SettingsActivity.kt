@@ -2,11 +2,14 @@ package com.example.awfc.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MenuItem
 import com.example.awfc.R
 import android.view.View
 import androidx.appcompat.widget.Toolbar
+import dagger.hilt.android.AndroidEntryPoint
 
 
+@AndroidEntryPoint
 class SettingsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -14,9 +17,7 @@ class SettingsActivity : AppCompatActivity() {
 
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
-        toolbar.title = "Settings"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
         supportActionBar!!.title = "Settings"
 
         // below line is used to check if
@@ -32,4 +33,15 @@ class SettingsActivity : AppCompatActivity() {
             supportFragmentManager.beginTransaction().add(R.id.idFrameLayout, SettingsFragment()).commit()
         }
     }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                onBackPressed()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
 }

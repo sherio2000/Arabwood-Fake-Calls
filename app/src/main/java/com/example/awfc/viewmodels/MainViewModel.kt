@@ -30,6 +30,7 @@ class MainViewModel @ViewModelInject constructor(
     fun getArtists(): Flow<List<Artist>> = artistDao.readAll()
     fun saveVoiceCallRecord(voiceCallerHistory: VoiceCallerHistory) = viewModelScope.launch(Dispatchers.IO) {  voiceCallerHistoryDao.addVoiceCallRecord(voiceCallerHistory) }
     fun getVoiceCallHistory(): Flow<List<VoiceCallerHistory>> = voiceCallerHistoryDao.readAll()
+    fun clearVoiceCallHistory() = viewModelScope.launch(Dispatchers.IO) {  voiceCallerHistoryDao.deleteVoiceCallRecords() }
     fun searchArtist(searchQuery: String): Flow<List<Artist>> {
         return artistDao.searchArtists(searchQuery)
     }

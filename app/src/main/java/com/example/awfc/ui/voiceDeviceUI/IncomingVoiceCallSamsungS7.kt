@@ -11,6 +11,7 @@ import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.preference.PreferenceManager
 import com.example.awfc.R
 import com.example.awfc.data.VoiceCaller
 import com.example.awfc.utils.OnSwipeTouchListener
@@ -34,7 +35,12 @@ class IncomingVoiceCallSamsungS7 : AppCompatActivity() {
 
         notification = RingtoneManager.getRingtone(this, SharedPreferences().getRingtoneUri(this))
 
+        val prefs = PreferenceManager.getDefaultSharedPreferences(this)
+        val vibrationSwitch = prefs.getBoolean("Vibrate", true)
+
         notification?.play()
+        if(vibrationSwitch)
+            ScheduleVoiceCall().vibratePhone(this)
 
         val leftChevron1 = findViewById<ImageView>(R.id.chevronLeftIV1)
         leftChevron1.startAnimation(AnimationUtils.loadAnimation(this, R.anim.fadein))
@@ -64,6 +70,7 @@ class IncomingVoiceCallSamsungS7 : AppCompatActivity() {
 
             override fun onSwipeLeft() {
                 notification?.stop()
+                ScheduleVoiceCall().stopVibration(this@IncomingVoiceCallSamsungS7)
                 this@IncomingVoiceCallSamsungS7.finish()
                 super.onSwipeLeft()
             }
@@ -74,6 +81,7 @@ class IncomingVoiceCallSamsungS7 : AppCompatActivity() {
 
             override fun onSwipeRight() {
                 notification?.stop()
+                ScheduleVoiceCall().stopVibration(this@IncomingVoiceCallSamsungS7)
                 this@IncomingVoiceCallSamsungS7.finish()
                 val intent = Intent(this@IncomingVoiceCallSamsungS7, IncomingVoiceCallSamsungS7Home::class.java)
                 intent.putExtra("caller", caller)
@@ -88,6 +96,7 @@ class IncomingVoiceCallSamsungS7 : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
+        ScheduleVoiceCall().stopVibration(this)
         notification?.stop()
     }
 }

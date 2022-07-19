@@ -13,6 +13,7 @@ import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.preference.PreferenceManager
 import com.example.awfc.R
 import com.example.awfc.data.VoiceCaller
 import com.example.awfc.utils.OnSwipeTouchListener
@@ -36,8 +37,13 @@ class IncomingVoiceCallSamsungA10 : AppCompatActivity() {
 
 
         notification = RingtoneManager.getRingtone(this, SharedPreferences().getRingtoneUri(this))
+        val prefs = PreferenceManager.getDefaultSharedPreferences(this)
+        val vibrationSwitch = prefs.getBoolean("Vibrate", true)
+
 
         notification?.play()
+        if(vibrationSwitch)
+            ScheduleVoiceCall().vibratePhone(this)
 
         val chevronRight = findViewById<ImageView>(R.id.chevronRightIV)
         chevronRight.startAnimation(AnimationUtils.loadAnimation(this, R.anim.right_slide_chevron))
@@ -52,6 +58,7 @@ class IncomingVoiceCallSamsungA10 : AppCompatActivity() {
         declineBtn.setOnTouchListener(object : OnSwipeTouchListener(this@IncomingVoiceCallSamsungA10) {
             override fun onSwipeLeft() {
                 notification?.stop()
+                ScheduleVoiceCall().stopVibration(this@IncomingVoiceCallSamsungA10)
                 this@IncomingVoiceCallSamsungA10.finish()
                 super.onSwipeUp()
             }
@@ -61,6 +68,7 @@ class IncomingVoiceCallSamsungA10 : AppCompatActivity() {
         answerBtn.setOnTouchListener(object : OnSwipeTouchListener(this@IncomingVoiceCallSamsungA10) {
             override fun onSwipeRight() {
                 notification?.stop()
+                ScheduleVoiceCall().stopVibration(this@IncomingVoiceCallSamsungA10)
                 this@IncomingVoiceCallSamsungA10.finish()
                 val intent = Intent(this@IncomingVoiceCallSamsungA10, IncomingVoiceCallSamsungA10Home::class.java)
                 intent.putExtra("caller", caller)
@@ -75,6 +83,7 @@ class IncomingVoiceCallSamsungA10 : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
+        ScheduleVoiceCall().stopVibration(this)
         notification?.stop()
     }
 }

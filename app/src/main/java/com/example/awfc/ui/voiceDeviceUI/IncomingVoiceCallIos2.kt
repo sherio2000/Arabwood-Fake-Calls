@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.preference.PreferenceManager
 import com.example.awfc.R
 import com.example.awfc.data.VoiceCaller
 import com.example.awfc.utils.ScheduleVoiceCall
@@ -26,21 +27,26 @@ class IncomingVoiceCallIos2 : AppCompatActivity() {
 
         notification = RingtoneManager.getRingtone(this, SharedPreferences().getRingtoneUri(this))
         val callerNameTv = findViewById<TextView>(R.id.callerNameTv)
+        val prefs = PreferenceManager.getDefaultSharedPreferences(this)
+        val vibrationSwitch = prefs.getBoolean("Vibrate", true)
 
         caller = intent.getParcelableExtra("caller")
         caller?.let { ScheduleVoiceCall().placeCallerInfo(callerNameTv, null, it) }
 
         notification?.play()
-
+        if(vibrationSwitch)
+            ScheduleVoiceCall().vibratePhone(this)
 
         val declineBtn = findViewById<ImageView>(R.id.declineBtnIV)
         val answerBtn = findViewById<ImageView>(R.id.acceptBtn)
         declineBtn.setOnClickListener {
             notification?.stop()
+            ScheduleVoiceCall().stopVibration(this)
             this.finish()
         }
         answerBtn.setOnClickListener {
             notification?.stop()
+            ScheduleVoiceCall().stopVibration(this)
             this@IncomingVoiceCallIos2.finish()
             val intent = Intent(this@IncomingVoiceCallIos2, IncomingVoiceCallIos122Home::class.java)
             intent.putExtra("caller", caller)
@@ -49,6 +55,7 @@ class IncomingVoiceCallIos2 : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
+        ScheduleVoiceCall().stopVibration(this)
         notification?.stop()
     }
 }

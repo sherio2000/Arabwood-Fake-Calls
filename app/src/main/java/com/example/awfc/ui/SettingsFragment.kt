@@ -16,14 +16,25 @@ import android.net.Uri
 import android.annotation.SuppressLint
 import android.app.Activity.RESULT_OK
 import android.os.Build
+import android.os.Handler
+import android.os.Looper
 import android.provider.ContactsContract
+import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ProcessLifecycleOwner
+import androidx.lifecycle.coroutineScope
+import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
 import com.example.awfc.utils.SharedPreferences
-import kotlinx.coroutines.runInterruptible
+import com.example.awfc.viewmodels.MainViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.collect
 
-
+@AndroidEntryPoint
 class SettingsFragment : PreferenceFragmentCompat() {
+    private val mainViewModel: MainViewModel by viewModels()
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preference, rootKey)
@@ -43,6 +54,21 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 intent.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_SILENT, false)
                 intent.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_DEFAULT, true)
                 startActivityForResult(intent, 999)
+                true
+            }
+            getString(R.string.clear_voice_history_pref_name) -> {
+                val builder = AlertDialog.Builder(context)
+                builder.setCancelable(true)
+                builder.setTitle("Warning")
+                builder.setMessage("Are you sure you want to clear your voice call history?")
+
+                builder.setPositiveButton("Yes") { dialog, which ->
+                    lifecycleScope.launch {
+                        mainViewModel.clearVoiceCallHistory()
+                    }
+                }
+                builder.show()
+
                 true
             }
             else -> {
