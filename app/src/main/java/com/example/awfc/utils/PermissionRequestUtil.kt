@@ -26,4 +26,12 @@ object PermissionRequestUtil {
             1
         )
     }
+
+    fun requestWritePermission(fragment: Fragment){
+        EasyPermissions.requestPermissions(
+            fragment,
+            Manifest.permission.WRITE_SETTINGS,
+            1
+        )
+    }
 }

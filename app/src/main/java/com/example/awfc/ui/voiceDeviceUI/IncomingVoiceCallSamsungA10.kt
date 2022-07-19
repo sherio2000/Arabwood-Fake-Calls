@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.media.Image
 import android.media.MediaPlayer
+import android.media.Ringtone
 import android.media.RingtoneManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -16,9 +17,10 @@ import com.example.awfc.R
 import com.example.awfc.data.VoiceCaller
 import com.example.awfc.utils.OnSwipeTouchListener
 import com.example.awfc.utils.ScheduleVoiceCall
+import com.example.awfc.utils.SharedPreferences
 
 class IncomingVoiceCallSamsungA10 : AppCompatActivity() {
-    private var mp: MediaPlayer? = null
+    private var notification: Ringtone? = null
     private var caller: VoiceCaller? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         ScheduleVoiceCall().showWhenLockedAndTurnScreenOn(this)
@@ -33,10 +35,9 @@ class IncomingVoiceCallSamsungA10 : AppCompatActivity() {
         caller?.let { ScheduleVoiceCall().placeCallerInfo(callerNameTv, callerMobileTv, it) }
 
 
-        val notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE)
+        notification = RingtoneManager.getRingtone(this, SharedPreferences().getRingtoneUri(this))
 
-        mp = MediaPlayer.create(this, notification)
-        mp?.start()
+        notification?.play()
 
         val chevronRight = findViewById<ImageView>(R.id.chevronRightIV)
         chevronRight.startAnimation(AnimationUtils.loadAnimation(this, R.anim.right_slide_chevron))
@@ -50,7 +51,7 @@ class IncomingVoiceCallSamsungA10 : AppCompatActivity() {
 
         declineBtn.setOnTouchListener(object : OnSwipeTouchListener(this@IncomingVoiceCallSamsungA10) {
             override fun onSwipeLeft() {
-                mp?.stop()
+                notification?.stop()
                 this@IncomingVoiceCallSamsungA10.finish()
                 super.onSwipeUp()
             }
@@ -59,7 +60,7 @@ class IncomingVoiceCallSamsungA10 : AppCompatActivity() {
 
         answerBtn.setOnTouchListener(object : OnSwipeTouchListener(this@IncomingVoiceCallSamsungA10) {
             override fun onSwipeRight() {
-                mp?.stop()
+                notification?.stop()
                 this@IncomingVoiceCallSamsungA10.finish()
                 val intent = Intent(this@IncomingVoiceCallSamsungA10, IncomingVoiceCallSamsungA10Home::class.java)
                 intent.putExtra("caller", caller)
@@ -74,6 +75,6 @@ class IncomingVoiceCallSamsungA10 : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        mp?.stop()
+        notification?.stop()
     }
 }

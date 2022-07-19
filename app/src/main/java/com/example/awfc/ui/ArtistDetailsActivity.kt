@@ -88,8 +88,8 @@ class ArtistDetailsActivity : AppCompatActivity() {
 
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
-        toolbar.title = "Details"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar!!.title = "Details"
 
 
 

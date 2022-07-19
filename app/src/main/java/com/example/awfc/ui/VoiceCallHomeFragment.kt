@@ -77,6 +77,7 @@ class VoiceCallHomeFragment() : Fragment() {
         val setDeviceBtn = mView.findViewById<MaterialButton>(R.id.deviceDesignBtn)
         val addVoiceBtn = mView.findViewById<MaterialButton>(R.id.addVoiceBtn)
         val addContactBtn = mView.findViewById<MaterialButton>(R.id.addContactBtn)
+        val settingsBtn = mView.findViewById<MaterialButton>(R.id.settingsBtn)
 
         getDevicePreference(setDeviceBtn)
         refreshHomePage(setTimeBtn)
@@ -119,6 +120,11 @@ class VoiceCallHomeFragment() : Fragment() {
                 requestContactPermission()
                 Log.i(TAG, "Permission Denied")
             }
+        }
+
+        settingsBtn.setOnClickListener {
+            val i = Intent(context, SettingsActivity::class.java)
+            startActivity(i)
         }
 
         addVoiceBtn.setOnClickListener {

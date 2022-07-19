@@ -4,7 +4,9 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.media.MediaPlayer
+import android.media.Ringtone
 import android.media.RingtoneManager
+import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -24,12 +26,13 @@ import com.example.awfc.R
 import com.example.awfc.data.VoiceCaller
 import com.example.awfc.utils.OnSwipeTouchListener
 import com.example.awfc.utils.ScheduleVoiceCall
+import com.example.awfc.utils.SharedPreferences
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class IncomingVoiceCallAndroidNougat : AppCompatActivity() {
 
     private var handlerAnimation = Handler()
-    private var mp: MediaPlayer? = null
+    private var notification: Ringtone? = null
     private var caller: VoiceCaller? = null
 
     @SuppressLint("ClickableViewAccessibility", "UseCompatLoadingForDrawables")
@@ -41,7 +44,7 @@ class IncomingVoiceCallAndroidNougat : AppCompatActivity() {
             WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_incoming_voice_call_android_nougat)
-        val notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE)
+        notification = RingtoneManager.getRingtone(this@IncomingVoiceCallAndroidNougat, SharedPreferences().getRingtoneUri(this))
         val callerNameTv = findViewById<TextView>(R.id.callerIdTv)
         val callerMobileTv = findViewById<TextView>(R.id.callerNumTv)
 
@@ -49,9 +52,7 @@ class IncomingVoiceCallAndroidNougat : AppCompatActivity() {
         caller?.let { ScheduleVoiceCall().placeCallerInfo(callerNameTv, callerMobileTv, it) }
 
 
-
-        mp = MediaPlayer.create(this, notification)
-        mp?.start()
+        notification?.play()
 
         startPulse()
 
@@ -93,14 +94,14 @@ class IncomingVoiceCallAndroidNougat : AppCompatActivity() {
             }
 
             override fun onSwipeLeft() {
-                mp?.stop()
+                notification?.stop()
                 stopPulse()
                 this@IncomingVoiceCallAndroidNougat.finish()
                 super.onSwipeLeft()
             }
 
             override fun onSwipeRight() {
-                mp?.stop()
+                notification?.stop()
                 stopPulse()
                 this@IncomingVoiceCallAndroidNougat.finish()
                 val intent = Intent(this@IncomingVoiceCallAndroidNougat, IncomingCallAndroidNougatHome::class.java)
@@ -158,6 +159,6 @@ class IncomingVoiceCallAndroidNougat : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        mp?.stop()
+        notification?.stop()
     }
 }

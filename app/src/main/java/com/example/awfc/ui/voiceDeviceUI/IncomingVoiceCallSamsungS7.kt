@@ -2,6 +2,7 @@ package com.example.awfc.ui.voiceDeviceUI
 
 import android.content.Intent
 import android.media.MediaPlayer
+import android.media.Ringtone
 import android.media.RingtoneManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -14,9 +15,10 @@ import com.example.awfc.R
 import com.example.awfc.data.VoiceCaller
 import com.example.awfc.utils.OnSwipeTouchListener
 import com.example.awfc.utils.ScheduleVoiceCall
+import com.example.awfc.utils.SharedPreferences
 
 class IncomingVoiceCallSamsungS7 : AppCompatActivity() {
-    private var mp: MediaPlayer? = null
+    private var notification: Ringtone? = null
     private var caller: VoiceCaller? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         ScheduleVoiceCall().showWhenLockedAndTurnScreenOn(this)
@@ -30,10 +32,9 @@ class IncomingVoiceCallSamsungS7 : AppCompatActivity() {
         caller = intent.getParcelableExtra("caller")
         caller?.let { ScheduleVoiceCall().placeCallerInfo(callerNameTv, callerMobileTv, it) }
 
-        val notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE)
+        notification = RingtoneManager.getRingtone(this, SharedPreferences().getRingtoneUri(this))
 
-        mp = MediaPlayer.create(this, notification)
-        mp?.start()
+        notification?.play()
 
         val leftChevron1 = findViewById<ImageView>(R.id.chevronLeftIV1)
         leftChevron1.startAnimation(AnimationUtils.loadAnimation(this, R.anim.fadein))
@@ -62,7 +63,7 @@ class IncomingVoiceCallSamsungS7 : AppCompatActivity() {
 
 
             override fun onSwipeLeft() {
-                mp?.stop()
+                notification?.stop()
                 this@IncomingVoiceCallSamsungS7.finish()
                 super.onSwipeLeft()
             }
@@ -72,7 +73,7 @@ class IncomingVoiceCallSamsungS7 : AppCompatActivity() {
         answerBtn.setOnTouchListener(object : OnSwipeTouchListener(this@IncomingVoiceCallSamsungS7) {
 
             override fun onSwipeRight() {
-                mp?.stop()
+                notification?.stop()
                 this@IncomingVoiceCallSamsungS7.finish()
                 val intent = Intent(this@IncomingVoiceCallSamsungS7, IncomingVoiceCallSamsungS7Home::class.java)
                 intent.putExtra("caller", caller)
@@ -87,6 +88,6 @@ class IncomingVoiceCallSamsungS7 : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        mp?.stop()
+        notification?.stop()
     }
 }

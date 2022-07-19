@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="General">
+
+        <Preference
+            android:summary="default"
+            android:key="@string/ringtone_pref_name"
+            android:title="@string/ringtone_pref_name" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="@string/vibrate_switch_pref_name"
+            android:title="@string/vibrate_switch_pref_name" />
+
+        <Preference
+            android:title="@string/clear_voice_history_pref_name"/>
+
+        <Preference
+            android:title="@string/rate_us_pref_name"/>
+
+
+    </PreferenceCategory>
+</PreferenceScreen>

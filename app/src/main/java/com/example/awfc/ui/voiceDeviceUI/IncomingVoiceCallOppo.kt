@@ -2,6 +2,7 @@ package com.example.awfc.ui.voiceDeviceUI
 
 import android.content.Intent
 import android.media.MediaPlayer
+import android.media.Ringtone
 import android.media.RingtoneManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -12,9 +13,10 @@ import com.example.awfc.R
 import com.example.awfc.data.VoiceCaller
 import com.example.awfc.utils.OnSwipeTouchListener
 import com.example.awfc.utils.ScheduleVoiceCall
+import com.example.awfc.utils.SharedPreferences
 
 class IncomingVoiceCallOppo : AppCompatActivity() {
-    private var mp: MediaPlayer? = null
+    private var notification: Ringtone? = null
     private var caller: VoiceCaller? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         ScheduleVoiceCall().showWhenLockedAndTurnScreenOn(this)
@@ -22,10 +24,9 @@ class IncomingVoiceCallOppo : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_incoming_voice_call_oppo)
 
-        val notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE)
+        notification = RingtoneManager.getRingtone(this, SharedPreferences().getRingtoneUri(this))
 
-        mp = MediaPlayer.create(this, notification)
-        mp?.start()
+        notification?.play()
 
         val callerNameTv = findViewById<TextView>(R.id.callerIdTv)
         val callerNumTv = findViewById<TextView>(R.id.callerNumTv)
@@ -45,7 +46,7 @@ class IncomingVoiceCallOppo : AppCompatActivity() {
 
         declineBtn.setOnTouchListener(object : OnSwipeTouchListener(this@IncomingVoiceCallOppo) {
             override fun onSwipeUp() {
-                mp?.stop()
+                notification?.stop()
                 this@IncomingVoiceCallOppo.finish()
                 super.onSwipeUp()
             }
@@ -54,7 +55,7 @@ class IncomingVoiceCallOppo : AppCompatActivity() {
 
         answerBtn.setOnTouchListener(object : OnSwipeTouchListener(this@IncomingVoiceCallOppo) {
             override fun onSwipeUp() {
-                mp?.stop()
+                notification?.stop()
                 this@IncomingVoiceCallOppo.finish()
                 val intent = Intent(this@IncomingVoiceCallOppo, IncomingVoiceCallOppoHome::class.java)
                 intent.putExtra("caller", caller)
@@ -67,6 +68,6 @@ class IncomingVoiceCallOppo : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        mp?.stop()
+        notification?.stop()
     }
 }

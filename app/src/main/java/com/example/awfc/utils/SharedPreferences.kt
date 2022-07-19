@@ -2,6 +2,7 @@ package com.example.awfc.utils
 
 import android.app.Activity
 import android.content.Context
+import android.media.RingtoneManager
 import android.net.Uri
 
 class SharedPreferences {
@@ -10,6 +11,7 @@ class SharedPreferences {
     private val Audio_Voice_Call_Pref_Name = "audioUri"
     private val Device_Voice_Call_Pref_Name = "device"
     private val Duration_Voice_Call_Pref_Name = "duration"
+    private val Ringtone_Voice_Call_Pref_Name = "ringtone"
     private val Caller_Name_Voice_Call_Pref_Name = "callerName"
     private val Caller_Number_Voice_Call_Pref_Name = "callerNumber"
 
@@ -121,6 +123,17 @@ class SharedPreferences {
         val editor = sharedPreferences.edit()
         editor.putString(Caller_Name_Voice_Call_Pref_Name, callerName)
         editor.apply()
+    }
+    fun setRingtone(context:Context, ringtoneUri: String) {
+        val sharedPreferences = context.getSharedPreferences(this.PREF_NAME, Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putString(Ringtone_Voice_Call_Pref_Name, ringtoneUri)
+        editor.apply()
+    }
+    fun getRingtoneUri(activity: Activity) : Uri {
+        val sharedPreferences = activity.getSharedPreferences(this.PREF_NAME ,Context.MODE_PRIVATE)
+        val uriString = sharedPreferences.getString(Ringtone_Voice_Call_Pref_Name, RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE).toString())
+        return Uri.parse(uriString)
     }
     fun setCallerNumber(context: Context, callerNumber: String) {
         val sharedPreferences = context.getSharedPreferences(this.PREF_NAME, Context.MODE_PRIVATE)
