@@ -39,6 +39,39 @@ class SettingsFragment : PreferenceFragmentCompat() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preference, rootKey)
         val ringtonePref = findPreference<Preference>("Ringtone")
+        val vibrationPref = findPreference<Preference>("Vibrate")
+        val languagePref = findPreference<Preference>("language")
+        val policyPref = findPreference<Preference>("policy")
+        val voiceCallHistoryPref = findPreference<Preference>("Clear Voice Call History")
+        val rateUsPref = findPreference<Preference>("Rate Us")
+        if(context?.let { SharedPreferences().getLanguage(it) } == "AR")
+        {
+            languagePref?.title = "اللغه"
+        }
+        if(context?.let { SharedPreferences().getLanguage(it) } == "AR")
+        {
+            policyPref?.title = "سياسة التطبيق"
+        }
+        if(context?.let { SharedPreferences().getLanguage(it) } == "AR")
+        {
+            ringtonePref?.title = "نعمه الرنين"
+        }
+        if(context?.let { SharedPreferences().getLanguage(it) } == "AR")
+        {
+            vibrationPref?.title = "رنين الاهتزاز"
+        }
+        if(context?.let { SharedPreferences().getLanguage(it) } == "AR")
+        {
+            voiceCallHistoryPref?.title = "مسح سجل المكالمات الصوتية"
+        }
+        if(context?.let { SharedPreferences().getLanguage(it) } == "AR")
+        {
+            rateUsPref?.title = "قيمنا"
+        }
+        if(context?.let { SharedPreferences().getLanguage(it) } == "AR")
+        {
+            languagePref?.setDefaultValue(2)
+        }
         val currentRingtone = RingtoneManager.getRingtone(context, SharedPreferences().getRingtoneUri(requireActivity()))
         ringtonePref?.summary = currentRingtone.getTitle(context)
     }

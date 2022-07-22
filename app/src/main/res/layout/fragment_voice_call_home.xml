@@ -44,8 +44,6 @@
                 android:layout_height="55dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="10dp"
-                app:helperText="Name"
-                app:helperTextEnabled="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/addContactBtn"
                 app:layout_constraintTop_toTopOf="parent">
@@ -67,8 +65,6 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginEnd="10dp"
                 android:layout_marginBottom="10dp"
-                app:helperText="Phone Number"
-                app:helperTextEnabled="true"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/addContactBtn"
@@ -93,7 +89,7 @@
     <com.google.android.material.button.MaterialButton
         android:id="@+id/addVoiceBtn"
         android:layout_width="150dp"
-        android:layout_height="110dp"
+        android:layout_height="120dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="65dp"
         android:backgroundTint="#3D99DF"
@@ -137,7 +133,7 @@
     <com.google.android.material.button.MaterialButton
         android:id="@+id/deviceDesignBtn"
         android:layout_width="150dp"
-        android:layout_height="110dp"
+        android:layout_height="120dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="65dp"
         android:layout_marginEnd="10dp"

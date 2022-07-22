@@ -14,6 +14,7 @@ class SharedPreferences {
     private val Ringtone_Voice_Call_Pref_Name = "ringtone"
     private val Caller_Name_Voice_Call_Pref_Name = "callerName"
     private val Caller_Number_Voice_Call_Pref_Name = "callerNumber"
+    private val languagePrefName = "language"
 
     fun setDefaultVoiceCallPreferences(activity: Activity)
     {
@@ -158,5 +159,17 @@ class SharedPreferences {
         editor.remove(Caller_Name_Voice_Call_Pref_Name)
         editor.remove(Caller_Number_Voice_Call_Pref_Name)
         editor.apply()
+    }
+    fun updateLanguage(context: Context, languageKey: String)
+    {
+        val sharedPreferences = context.getSharedPreferences(this.PREF_NAME, Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putString(languagePrefName, languageKey)
+        editor.apply()
+    }
+    fun getLanguage(context: Context) : String?
+    {
+        val sharedPreferences = context.getSharedPreferences(this.PREF_NAME ,Context.MODE_PRIVATE)
+        return sharedPreferences.getString(languagePrefName, "EN")
     }
 }

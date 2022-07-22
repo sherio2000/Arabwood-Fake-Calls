@@ -53,7 +53,14 @@ class VideoCallHomeFragment : Fragment() , ArtistsAdapter.OnArtistListener {
 
         setupRecyclerView()
         mainViewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
-        mainViewModel.artistsResponse.observe(viewLifecycleOwner, Observer {
+        mainViewModel.artistsResponse.observe(viewLifecycleOwner, Observer { it ->
+            if(context?.let { SharedPreferences().getLanguage(context!!) } == "AR")
+            {
+                it.forEach {
+                    it.name = it.name_arabic
+                    it.description = it.description_arabic
+                }
+            }
             mAdapter.setData(it)
         })
 
@@ -70,8 +77,15 @@ class VideoCallHomeFragment : Fragment() , ArtistsAdapter.OnArtistListener {
         {
 
             lifecycle.coroutineScope.launch {
-                mainViewModel.getArtists().collect {
+                mainViewModel.getArtists().collect { it ->
                     mainViewModel.artistsResponse.value = it
+                    if(context?.let { SharedPreferences().getLanguage(context!!) } == "AR")
+                    {
+                        it.forEach {
+                            it.name = it.name_arabic
+                            it.description = it.description_arabic
+                        }
+                    }
                     artists = it
                     mAdapter.setData(it)
                 }
@@ -80,7 +94,6 @@ class VideoCallHomeFragment : Fragment() , ArtistsAdapter.OnArtistListener {
         } else {
             showNoInternetConnection()
         }
-
         return mView
     }
 

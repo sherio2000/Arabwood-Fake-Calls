@@ -41,6 +41,7 @@ import androidx.lifecycle.lifecycleScope
 import com.example.awfc.data.VoiceCallerHistory
 import com.example.awfc.utils.TAG
 import com.example.awfc.viewmodels.MainViewModel
+import com.google.android.material.textfield.TextInputEditText
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch
@@ -60,6 +61,7 @@ class VoiceCallHomeFragment() : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
@@ -102,9 +104,19 @@ class VoiceCallHomeFragment() : Fragment() {
 
         refreshHomePage(setTimeBtn)
 
+
         val builder = AlertDialog.Builder(this.context)
-        val durations : Array<String> = arrayOf("Now","10 seconds","30 seconds","1 minute","5 minutes","10 minutes")
-        addVoiceBtn.text = Html.fromHtml("<big>" + "<font size=10' face='arial' color='#ffffff'>" + "Set Audio" + "</font>" + "</big>" +  "<br />" +
+        var durations : Array<String> = arrayOf("Now","10 seconds","30 seconds","1 minute","5 minutes","10 minutes")
+        if(context?.let { SharedPreferences().getLanguage(it) } == "AR")
+        {
+            durations = arrayOf("ألان", "10 ثوان", "30 ثوان", "1 دقيقة", "5 دقيقة", "10 دقيقة")
+        }
+        var addVoiceBtnLbl = "Add Voice"
+        if(context?.let { SharedPreferences().getLanguage(it) } == "AR")
+        {
+            addVoiceBtnLbl = "أضافه تشغيل صوت"
+        }
+        addVoiceBtn.text = Html.fromHtml("<big>" + "<font size=10' face='arial' color='#ffffff'>" + addVoiceBtnLbl + "</font>" + "</big>" +  "<br />" +
                 "<small>" +
                 "<font size=6' face='arial' color='#d9d9d9'>" +
                 "None" +
@@ -121,10 +133,27 @@ class VoiceCallHomeFragment() : Fragment() {
                 Log.i(TAG, "Permission Denied")
             }
         }
+        if(context?.let { SharedPreferences().getLanguage(it) } == "AR")
+        {
+            addContactBtn.text = "أضافه جهه اتصال"
+        }
 
+        if(context?.let { SharedPreferences().getLanguage(it) } == "AR")
+        {
+            setTimeBtn.text = "ضبط  التوقيت"
+        }
         settingsBtn.setOnClickListener {
             val i = Intent(context, SettingsActivity::class.java)
             startActivity(i)
+        }
+        if(context?.let { SharedPreferences().getLanguage(it) } == "AR")
+        {
+            settingsBtn.text = "الاعدادات"
+        }
+
+        if(context?.let { SharedPreferences().getLanguage(it) } == "AR")
+        {
+            setDeviceBtn.text = "اختر الجهاز"
         }
 
         addVoiceBtn.setOnClickListener {
@@ -147,6 +176,16 @@ class VoiceCallHomeFragment() : Fragment() {
         setDeviceBtn.setOnClickListener {
             val intent = Intent(this.context, DeviceVoiceCallActivity::class.java)
             startActivity(intent)
+        }
+
+        if(context?.let { SharedPreferences().getLanguage(it) } == "AR")
+        {
+            setDeviceBtn.text = "اختيار الجهاز"
+        }
+
+        if(context?.let { SharedPreferences().getLanguage(it) } == "AR")
+        {
+            scheduleCallBtn.text = "انشاء المكالمه"
         }
 
         scheduleCallBtn.setOnClickListener {
@@ -224,32 +263,65 @@ class VoiceCallHomeFragment() : Fragment() {
         }
         setTimeBtn.setOnClickListener {
 
-            builder.setTitle("Receive call in ...")
+            if(context?.let { SharedPreferences().getLanguage(it) } == "AR") {
+                builder.setTitle("تلقي مكالمة في ...")
+            } else {
+                builder.setTitle("Receive call in ...")
+            }
             builder.setItems(durations) { _, i ->
-                when {
-                    "Now" == durations[i] -> {
-                        this.context?.let { it1 -> sharedPreferences.setDurationVoiceCallPreference(it1, 0) }
-                        refreshHomePage(setTimeBtn)
+                if(context?.let { SharedPreferences().getLanguage(it) } == "AR") {
+                    when {
+                        "ألان" == durations[i] -> {
+                            this.context?.let { it1 -> sharedPreferences.setDurationVoiceCallPreference(it1, 0) }
+                            refreshHomePage(setTimeBtn)
+                        }
+                        "10 ثوان" == durations[i] -> {
+                            this.context?.let { it1 -> sharedPreferences.setDurationVoiceCallPreference(it1, 10000) }
+                            refreshHomePage(setTimeBtn)
+                        }
+                        "30 ثوان" == durations[i] -> {
+                            this.context?.let { it1 -> sharedPreferences.setDurationVoiceCallPreference(it1, 30000) }
+                            refreshHomePage(setTimeBtn)
+                        }
+                        "1 دقيقة" == durations[i] -> {
+                            this.context?.let { it1 -> sharedPreferences.setDurationVoiceCallPreference(it1, 60000) }
+                            refreshHomePage(setTimeBtn)
+                        }
+                        "5 دقيقة" == durations[i] -> {
+                            this.context?.let { it1 -> sharedPreferences.setDurationVoiceCallPreference(it1, 300000) }
+                            refreshHomePage(setTimeBtn)
+                        }
+                        "10 دقيقة" == durations[i] -> {
+                            this.context?.let { it1 -> sharedPreferences.setDurationVoiceCallPreference(it1, 600000) }
+                            refreshHomePage(setTimeBtn)
+                        }
                     }
-                    "10 seconds" == durations[i] -> {
-                        this.context?.let { it1 -> sharedPreferences.setDurationVoiceCallPreference(it1, 10000) }
-                        refreshHomePage(setTimeBtn)
-                    }
-                    "30 seconds" == durations[i] -> {
-                        this.context?.let { it1 -> sharedPreferences.setDurationVoiceCallPreference(it1, 30000) }
-                        refreshHomePage(setTimeBtn)
-                    }
-                    "1 minute" == durations[i] -> {
-                        this.context?.let { it1 -> sharedPreferences.setDurationVoiceCallPreference(it1, 60000) }
-                        refreshHomePage(setTimeBtn)
-                    }
-                    "5 minutes" == durations[i] -> {
-                        this.context?.let { it1 -> sharedPreferences.setDurationVoiceCallPreference(it1, 300000) }
-                        refreshHomePage(setTimeBtn)
-                    }
-                    "10 minutes" == durations[i] -> {
-                        this.context?.let { it1 -> sharedPreferences.setDurationVoiceCallPreference(it1, 600000) }
-                        refreshHomePage(setTimeBtn)
+                } else {
+                    when {
+                        "Now" == durations[i] -> {
+                            this.context?.let { it1 -> sharedPreferences.setDurationVoiceCallPreference(it1, 0) }
+                            refreshHomePage(setTimeBtn)
+                        }
+                        "10 seconds" == durations[i] -> {
+                            this.context?.let { it1 -> sharedPreferences.setDurationVoiceCallPreference(it1, 10000) }
+                            refreshHomePage(setTimeBtn)
+                        }
+                        "30 seconds" == durations[i] -> {
+                            this.context?.let { it1 -> sharedPreferences.setDurationVoiceCallPreference(it1, 30000) }
+                            refreshHomePage(setTimeBtn)
+                        }
+                        "1 minute" == durations[i] -> {
+                            this.context?.let { it1 -> sharedPreferences.setDurationVoiceCallPreference(it1, 60000) }
+                            refreshHomePage(setTimeBtn)
+                        }
+                        "5 minutes" == durations[i] -> {
+                            this.context?.let { it1 -> sharedPreferences.setDurationVoiceCallPreference(it1, 300000) }
+                            refreshHomePage(setTimeBtn)
+                        }
+                        "10 minutes" == durations[i] -> {
+                            this.context?.let { it1 -> sharedPreferences.setDurationVoiceCallPreference(it1, 600000) }
+                            refreshHomePage(setTimeBtn)
+                        }
                     }
                 }
             }
@@ -420,8 +492,13 @@ class VoiceCallHomeFragment() : Fragment() {
 
     private fun setAudioBtnText(button1: Button)
     {
+        var addVoiceBtnLbl = "Add Voice"
+        if(context?.let { SharedPreferences().getLanguage(it) } == "AR")
+        {
+            addVoiceBtnLbl = "أضافه تشغيل صوت"
+        }
         val name = getNameFromUri(this.context?.let { SharedPreferences().getAudioUri(it) })
-        button1.text = Html.fromHtml("<big>" + "<font size=10' face='arial' color='#ffffff'>" + "Set Audio" + "</font>" + "</big>" +  "<br />" +
+        button1.text = Html.fromHtml("<big>" + "<font size=10' face='arial' color='#ffffff'>" + addVoiceBtnLbl + "</font>" + "</big>" +  "<br />" +
                 "<small>" +
                 "<font size=6' face='arial' color='#d9d9d9'>" +
                 name +
@@ -458,7 +535,12 @@ class VoiceCallHomeFragment() : Fragment() {
 
     private fun refreshHomePage(button1: Button)
     {
-        button1.text = Html.fromHtml("<big>" + "Set Timer" + "</big>" +  "<br />" +
+        var setTimerBtnLbl = "Set Timer"
+        if(context?.let { SharedPreferences().getLanguage(it) } == "AR")
+        {
+            setTimerBtnLbl = "ضبط  التوقيت"
+        }
+        button1.text = Html.fromHtml("<big>" + setTimerBtnLbl + "</big>" +  "<br />" +
                 "<small>" +
                 "<font size=6' face='arial' color='#d9d9d9'>" +
                 this.context?.let { sharedPreferences.getDurationVoiceCallPreferenceString(it) } +
@@ -468,9 +550,14 @@ class VoiceCallHomeFragment() : Fragment() {
 
     private fun getDevicePreference(button1: Button)
     {
+        var setDeviceBtnLbl = "Set Device"
+        if(context?.let { SharedPreferences().getLanguage(it) } == "AR")
+        {
+            setDeviceBtnLbl = "اختيار الجهاز"
+        }
         when(this.context?.let { sharedPreferences.getDeviceVoiceCallPreference(it) }) {
             1 -> {
-                button1.text = Html.fromHtml("<big>" + "<font size=10' face='arial' color='#ffffff'>" + "Set Device" + "</font>" + "</big>" +  "<br />" +
+                button1.text = Html.fromHtml("<big>" + "<font size=10' face='arial' color='#ffffff'>" + setDeviceBtnLbl + "</font>" + "</big>" +  "<br />" +
                         "<small>" +
                         "<font size=6' face='arial' color='#d9d9d9'>" +
                         "Android Nougat 7.0" +
@@ -478,7 +565,7 @@ class VoiceCallHomeFragment() : Fragment() {
                         + "</small>" + "<br />");
             }
             2 -> {
-                button1.text = Html.fromHtml("<big>" + "<font size=10' face='arial' color='#ffffff'>" + "Set Device" + "</font>" + "</big>" +  "<br />" +
+                button1.text = Html.fromHtml("<big>" + "<font size=10' face='arial' color='#ffffff'>" + setDeviceBtnLbl + "</font>" + "</big>" +  "<br />" +
                         "<small>" +
                         "<font size=6' face='arial' color='#d9d9d9'>" +
                         "IPhone ios" +
@@ -486,7 +573,7 @@ class VoiceCallHomeFragment() : Fragment() {
                         + "</small>" + "<br />");
             }
             3 -> {
-                button1.text = Html.fromHtml("<big>" + "<font size=10' face='arial' color='#ffffff'>" + "Set Device" + "</font>" + "</big>" +  "<br />" +
+                button1.text = Html.fromHtml("<big>" + "<font size=10' face='arial' color='#ffffff'>" + setDeviceBtnLbl + "</font>" + "</big>" +  "<br />" +
                         "<small>" +
                         "<font size=6' face='arial' color='#d9d9d9'>" +
                         "IPhone ios 12" +
@@ -494,7 +581,7 @@ class VoiceCallHomeFragment() : Fragment() {
                         + "</small>" + "<br />");
             }
             4 -> {
-                button1.text = Html.fromHtml("<big>" + "<font size=10' face='arial' color='#ffffff'>" + "Set Device" + "</font>" + "</big>" +  "<br />" +
+                button1.text = Html.fromHtml("<big>" + "<font size=10' face='arial' color='#ffffff'>" + setDeviceBtnLbl + "</font>" + "</big>" +  "<br />" +
                         "<small>" +
                         "<font size=6' face='arial' color='#d9d9d9'>" +
                         "Samsung A10" +
@@ -502,7 +589,7 @@ class VoiceCallHomeFragment() : Fragment() {
                         + "</small>" + "<br />");
             }
             5 -> {
-                button1.text = Html.fromHtml("<big>" + "<font size=10' face='arial' color='#ffffff'>" + "Set Device" + "</font>" + "</big>" +  "<br />" +
+                button1.text = Html.fromHtml("<big>" + "<font size=10' face='arial' color='#ffffff'>" + setDeviceBtnLbl + "</font>" + "</big>" +  "<br />" +
                         "<small>" +
                         "<font size=6' face='arial' color='#d9d9d9'>" +
                         "Samsung S7" +
@@ -510,7 +597,7 @@ class VoiceCallHomeFragment() : Fragment() {
                         + "</small>" + "<br />");
             }
             6 -> {
-                button1.text = Html.fromHtml("<big>" + "<font size=8' face='arial' color='#ffffff'>" + "Set Device" + "</font>" + "</big>" +  "<br />" +
+                button1.text = Html.fromHtml("<big>" + "<font size=8' face='arial' color='#ffffff'>" + setDeviceBtnLbl + "</font>" + "</big>" +  "<br />" +
                         "<small>" +
                         "<font size=6' face='arial' color='#d9d9d9'>" +
                         "Oppo" +

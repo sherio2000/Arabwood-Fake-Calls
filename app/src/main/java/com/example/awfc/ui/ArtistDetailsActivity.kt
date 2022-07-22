@@ -61,6 +61,7 @@ import java.util.concurrent.Delayed
 import kotlin.concurrent.schedule
 
 @AndroidEntryPoint
+@DelicateCoroutinesApi
 class ArtistDetailsActivity : AppCompatActivity() {
 
 
@@ -79,6 +80,7 @@ class ArtistDetailsActivity : AppCompatActivity() {
 
 
 
+
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -89,9 +91,20 @@ class ArtistDetailsActivity : AppCompatActivity() {
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar!!.title = "Details"
+        if(SharedPreferences().getLanguage(this) == "AR")
+        {
+            supportActionBar!!.title = "تفاصيل"
+        } else {
+            supportActionBar!!.title = "Details"
+        }
 
 
+
+        val callBtn = findViewById<Button>(R.id.incomingCallBtn)
+        if(SharedPreferences().getLanguage(this) == "AR")
+        {
+            callBtn.text = "أنشاء مكالمه"
+        }
 
         val image = findViewById<ImageView>(R.id.artistDetailsIV)
         val artistTitle = findViewById<TextView>(R.id.artistDetailsNameTV)
@@ -112,7 +125,13 @@ class ArtistDetailsActivity : AppCompatActivity() {
             intent.getStringExtra("artistVideo2").toString(),
             intent.getStringExtra("artistVideo3").toString()
         )
-        val durations : Array<String> = arrayOf("5 seconds","10 seconds","30 seconds","1 minute","2 minutes")
+        var durations : Array<String> = arrayOf("5 seconds","10 seconds","30 seconds","1 minute","2 minutes")
+        if(SharedPreferences().getLanguage(this) == "AR")
+        {
+            durations = arrayOf("5 ثوان", "10 ثوان", "30 ثوان", "1 دقيقة", "2 دقيقة")
+        }
+
+
         val builder = AlertDialog.Builder(this)
 
         findViewById<Button>(R.id.incomingCallBtn).setOnClickListener {
@@ -135,29 +154,63 @@ class ArtistDetailsActivity : AppCompatActivity() {
                     // Requesting the permission
                     ActivityCompat.requestPermissions(this@ArtistDetailsActivity, arrayOf(Manifest.permission.CAMERA), CAMERA_PERMISSION_CODE)
                 } else {
-                    builder.setTitle("Receive call in ...")
+                    if(SharedPreferences().getLanguage(this) == "AR") {
+                        builder.setTitle("تلقي مكالمة في ...")
+                    } else {
+                        builder.setTitle("Receive call in ...")
+                    }
                     builder.setItems(durations) { _, i ->
-                        if ("5 seconds" == durations[i]) {
-                            Log.d("ITem Cliked", durations[i])
-                            this.finish()
-                            initiateIncomingCall(it, 5000, artist)
-                        } else if("10 seconds" == durations[i])
+                        if(SharedPreferences().getLanguage(this) == "AR")
                         {
-                            this.finish()
-                            initiateIncomingCall(it, 10000, artist)
-                        } else if("30 seconds" == durations[i])
-                        {
-                            this.finish()
-                            initiateIncomingCall(it, 30000, artist)
-                        } else  if("1 minute" == durations[i])
-                        {
-                            this.finish()
-                            initiateIncomingCall(it, 60000, artist)
+                            when {
+                                "5 ثوان" == durations[i] -> {
+                                    Log.d("ITem Cliked", durations[i])
+                                    this.finish()
+                                    initiateIncomingCall(it, 5000, artist)
+                                }
+                                "10 ثوان" == durations[i] -> {
+                                    this.finish()
+                                    initiateIncomingCall(it, 10000, artist)
+                                }
+                                "30 ثوان" == durations[i] -> {
+                                    this.finish()
+                                    initiateIncomingCall(it, 30000, artist)
+                                }
+                                "1 دقيقة" == durations[i] -> {
+                                    this.finish()
+                                    initiateIncomingCall(it, 60000, artist)
 
-                        } else if("2 minutes" == durations[i])
-                        {
-                            this.finish()
-                            initiateIncomingCall(it, 120000, artist)
+                                }
+                                "2 دقيقة" == durations[i] -> {
+                                    this.finish()
+                                    initiateIncomingCall(it, 120000, artist)
+                                }
+                            }
+                        }else {
+                            when {
+                                "5 seconds" == durations[i] -> {
+                                    Log.d("ITem Cliked", durations[i])
+                                    this.finish()
+                                    initiateIncomingCall(it, 5000, artist)
+                                }
+                                "10 seconds" == durations[i] -> {
+                                    this.finish()
+                                    initiateIncomingCall(it, 10000, artist)
+                                }
+                                "30 seconds" == durations[i] -> {
+                                    this.finish()
+                                    initiateIncomingCall(it, 30000, artist)
+                                }
+                                "1 minute" == durations[i] -> {
+                                    this.finish()
+                                    initiateIncomingCall(it, 60000, artist)
+
+                                }
+                                "2 minutes" == durations[i] -> {
+                                    this.finish()
+                                    initiateIncomingCall(it, 120000, artist)
+                                }
+                            }
                         }
                     }
                     builder.show()
