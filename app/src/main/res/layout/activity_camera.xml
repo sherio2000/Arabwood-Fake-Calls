@@ -15,16 +15,17 @@
         android:background="#000000"
         tools:context=".ui.camera.CameraActivity">
 
-        <ProgressBar
+        <pl.droidsonroids.gif.GifImageView
             android:id="@+id/pBar"
-            style="?android:attr/progressBarStyleLarge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:src="@drawable/loading"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/guideline4"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            />
 
 
         <com.yqritc.scalablevideoview.ScalableVideoView

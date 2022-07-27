@@ -12,7 +12,9 @@ import android.graphics.SurfaceTexture
 import android.hardware.camera2.*
 import android.media.MediaPlayer
 import android.media.MediaRecorder
+import android.media.Ringtone
 import android.media.RingtoneManager
+import android.opengl.Visibility
 import android.os.*
 import androidx.appcompat.app.AppCompatActivity
 import android.util.Log
@@ -23,6 +25,7 @@ import android.view.TextureView
 import android.view.View
 import android.view.animation.Animation
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.FragmentActivity
@@ -32,6 +35,7 @@ import com.example.awfc.data.Artist
 import com.example.awfc.databinding.ActivityIncomingRingingBinding
 import com.example.awfc.utils.AutoFitTextureView
 import com.example.awfc.utils.CompareSizesByArea
+import com.example.awfc.utils.SharedPreferences
 import com.example.awfc.utils.UiHelper
 import com.google.android.material.animation.AnimationUtils
 import dagger.hilt.android.AndroidEntryPoint
@@ -47,8 +51,9 @@ class IncomingRingingActivity : AppCompatActivity(), ActivityCompat.OnRequestPer
 
     @Inject
     lateinit var uiHelper: UiHelper
-    private var mp: MediaPlayer? = null
+    private var notification: Ringtone? = null
     private var artist: Artist? = null
+    private lateinit var pBar : LinearLayout
 
     private lateinit var binding: ActivityIncomingRingingBinding
 
@@ -61,6 +66,7 @@ class IncomingRingingActivity : AppCompatActivity(), ActivityCompat.OnRequestPer
         artist = intent.getParcelableExtra("artist")
 
         binding.nameRinging.text = artist?.name
+        pBar = findViewById(R.id.pBar)
 
         Glide.with(this)
             .load(artist?.image)
@@ -68,10 +74,9 @@ class IncomingRingingActivity : AppCompatActivity(), ActivityCompat.OnRequestPer
             .placeholder(R.color.colorAccent)
             .into(findViewById<View>(R.id.imageRinging) as ImageView)
 
-        val notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE)
+        notification = RingtoneManager.getRingtone(this@IncomingRingingActivity, SharedPreferences().getRingtoneUri(this))
 
-        mp = MediaPlayer.create(this, notification)
-        mp?.start()
+        notification?.play()
 
         val v = this.getSystemService(VIBRATOR_SERVICE) as Vibrator
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -86,16 +91,16 @@ class IncomingRingingActivity : AppCompatActivity(), ActivityCompat.OnRequestPer
         val intentToCamera = Intent(this, CameraActivity::class.java)
 
         binding.pickup.setOnClickListener { view: View? ->
-            mp?.stop()
+            //binding.pBar.visibility = View.VISIBLE
+            notification?.stop()
             intentToCamera.putExtra("artist", artist)
-            //val b = ActivityOptions.makeSceneTransitionAnimation(this).toBundle()
-            uiHelper.showToastLongCustom(this, getString(R.string.connecting))
+            //uiHelper.showToastLongCustom(this, getString(R.string.connecting))
             finish()
             startActivity(intentToCamera)
         }
 
         binding.hangup.setOnClickListener {
-            mp?.stop()
+            notification?.stop()
             finish()
         }
     }
@@ -126,6 +131,11 @@ class IncomingRingingActivity : AppCompatActivity(), ActivityCompat.OnRequestPer
         append(Surface.ROTATION_90, 180)
         append(Surface.ROTATION_180, 90)
         append(Surface.ROTATION_270, 0)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        notification?.stop()
     }
 
     /**
@@ -534,7 +544,6 @@ class IncomingRingingActivity : AppCompatActivity(), ActivityCompat.OnRequestPer
 
     override fun onStop() {
         super.onStop()
-        mp?.release()
-        mp = null
+        notification?.stop()
     }
 }

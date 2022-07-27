@@ -7,18 +7,19 @@ import android.graphics.Matrix
 import android.graphics.RectF
 import android.graphics.SurfaceTexture
 import android.hardware.camera2.*
+import android.media.MediaPlayer
 import android.media.MediaRecorder
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.HandlerThread
 import android.util.Log
 import android.util.Size
 import android.util.SparseIntArray
-import android.view.Surface
-import android.view.TextureView
-import android.view.View
+import android.view.*
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
@@ -34,40 +35,37 @@ import java.util.*
 import java.util.concurrent.Semaphore
 import java.util.concurrent.TimeUnit
 
-class CameraActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissionsResultCallback {
+class CameraActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissionsResultCallback, ActionMode.Callback {
 
     private lateinit var binding: ActivityCameraBinding
     private lateinit var loadingDialog: LoadingDialog
     private lateinit var artist: Artist
 
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+
         binding = DataBindingUtil.setContentView(this, R.layout.activity_camera)
+        binding.pBar.visibility = View.VISIBLE
         textureView = findViewById<View>(R.id.texture) as AutoFitTextureView
         artist = intent.getParcelableExtra("artist")!!
 
-        binding.pBar.visibility = View.VISIBLE
+
         //loadingDialog = LoadingDialog(this)
         //loadingDialog.startLoadingDialog()
 
-        try {
 
+
+        try {
             val videoPath = artist.videoUrl1
             val uri: Uri = Uri.parse(videoPath)
             binding.videoViewScalable.setDataSource(this@CameraActivity, uri)
-            binding.videoViewScalable.isLooping = true
+            binding.videoViewScalable.isLooping = false
             binding.videoViewScalable.prepare {
                 //loadingDialog.dismissDialog()
                 binding.videoViewScalable.findFocus()
                 binding.videoViewScalable.start()
-                binding.pBar.visibility = View.GONE
                 binding.videoViewScalable.setOnErrorListener { mp, what, extra ->
-                    Toast.makeText(
-                        this@CameraActivity,
-                        "Error fetching video",
-                        Toast.LENGTH_SHORT
-                    ).show()
                     binding.pBar.visibility = View.GONE
                     finish()
                     return@setOnErrorListener true
@@ -80,8 +78,31 @@ class CameraActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissionsR
         binding.btnEndCall.setOnClickListener {
             this.finish()
         }
+
+        binding.videoViewScalable.setOnInfoListener { _, i, i1 ->
+            if (i == MediaPlayer.MEDIA_INFO_VIDEO_RENDERING_START) {
+                binding.pBar.visibility = View.GONE
+            }
+            false
+        }
     }
 
+    override fun onCreateActionMode(p0: ActionMode?, p1: Menu?): Boolean {
+        binding.pBar.visibility = View.GONE
+        return true
+    }
+
+    override fun onPrepareActionMode(p0: ActionMode?, p1: Menu?): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    override fun onActionItemClicked(p0: ActionMode?, p1: MenuItem?): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    override fun onDestroyActionMode(p0: ActionMode?) {
+        TODO("Not yet implemented")
+    }
 
 
     private val TAG = "CameraActivity"
@@ -501,4 +522,6 @@ class CameraActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissionsR
             choices[0]
         }
     }
+
+
 }
